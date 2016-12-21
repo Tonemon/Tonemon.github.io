@@ -17,8 +17,9 @@
 	<!-- Bootstrap core CSS -->
     <link href="css/bootstrap.core.css" rel="stylesheet">
 	
-    <!-- Custom styles for this template -->
+    <!-- Custom styles and scripts for this template -->
     <link href="css/custom.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -31,6 +32,19 @@
   </head>
 
   <body>
+		<script>
+			$(document).ready(function(){
+				$("#hide").click(function(){
+				$("#hidbox").hide();
+			});
+			});
+		</script>
+	<div class="container" id="hidbox">
+		<div class="alert alert-warning alert-dismissable">
+			<a class="close" id="hide" data-dismiss="alert" aria-label="close">×</a>
+			<strong>Note:</strong> This website is not mobile responsive yet (popup will only show if mobile).
+		</div>
+	</div>
 
     <div class="container">
       <div class="header clearfix">
@@ -148,8 +162,9 @@
 	  
       <footer class="footer container">
         <p>&copy; 2016 <a href="https://github.com/Tonemon/">Tonemon</a>. All rights reserved.
-			<a class="btn btn-sm btn-success pull-right" href="" alt="Goto Top of the page" role="button">&#10548;</a>
 			<a class="btn btn-sm btn-success pull-right" href="" alt="Goto Top of the page" role="button">&#8634;</a>
+			<a class="btn btn-sm btn-success pull-right" href="" alt="Goto Top of the page" role="button">
+                        <i class="fa fa-mobile"></i></a>
 		</p>
       </footer>
 
