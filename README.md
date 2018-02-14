@@ -11,7 +11,7 @@ This template is made by Tonemon using bootstrap.
 <li>projects.html = The page showcasing all my projects (not only the most popular). Click <a href="http://tonemon.github.io/projects.html" target="_blank">here</a> to see it live.</li>
 </ul>
 
-##How Versions are used:
+## How Versions are used:
 I have made my own version control system which I have been using to name the new features, bug fixes and new releases for almost all of my project. It's explained below:
 <ul>
 <li>Version 1 (First number) = General Release number (also used when the project is rewritten from scratch).</li>
