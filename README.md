@@ -1,5 +1,5 @@
 # Tonemon's Workspace (Tonemon.github.io)
-- Welcome to my personal Github homepage where (almost) all my projects are hosted online and displayed. You can visit my homepage by clicking <a href="http://tonemon.github.io" target="_blank">here</a>. Some of these projects are different and can vary in language and purpose.
+Welcome to my personal Github homepage where (almost) all my projects are hosted online and displayed. You can visit my homepage by clicking <a href="http://tonemon.github.io" target="_blank">here</a>. Some of these projects are different and can vary in language and purpose.
 
 ## Licence and Credits
 This template is made by Tonemon using bootstrap.
