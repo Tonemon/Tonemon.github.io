@@ -38,13 +38,13 @@
 		</div>
 	</div>
 
-    <div class="container">
+    <div class="container" id="head">
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation"><a href="https://tonemon.github.io/">Home</a></li>
-            <li role="presentation"><a href="https://github.com/Tonemon?tab=repositories">Projects</a></li>
-            <li role="presentation"><a href="#contact">Contact</a></li>
+            <li role="presentation"><a href="#featured" class="js-scroll-trigger">Projects</a></li>
+            <li role="presentation"><a href="#contact" class="js-scroll-trigger">Contact</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Tonemon's Workspace</h3>
@@ -53,15 +53,16 @@
       <div class="jumbotron">
         <h1>Welcome!</h1>
         <p class="lead">Here are my best projects (websites, apps, and more) that I've posted on Github. Feel free to look around.</p>
-        <a class="btn btn-lg btn-success" href="#contact" role="button">Read More</a></p>
+        <a class="btn btn-lg btn-success js-scroll-trigger" href="#featured" role="button">Read More</a></p>
       </div>
 	  
-    <div id="f">
+    <div id="featured">
       <div class="container homepage">
         <!-- Featured Projects Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Featured Projects <!-- <small></small> --></h1>
+                <h1 class="page-header">Featured Projects
+				<a class="btn btn-success js-scroll-trigger pull-right" href="https://github.com/Tonemon?tab=repositories">View more on GitHub &raquo;</a></h1>
             </div>
         </div>
 
@@ -104,7 +105,7 @@
 
     <div id="contact"> <!-- container -->
       <div class="container homepage">
-        <h2>Contact Me</h2>
+        <h2>Contact Me <small>Via GitHub or Twitter</small></h2>
         <hr>
         <!-- Start 3 Social Media Icons -->
           <div class="row">
@@ -115,7 +116,6 @@
                         <i class="fa fa-circle fa-stack-2x"></i>
                         <i class="fa fa-github-alt fa-stack-1x fa-inverse"></i>
                     </span>
-                    <p>My GitHub Profile</p>
                 </a>
             </div>
             <div class="col-md-4 portfolio-item">
@@ -124,17 +124,15 @@
                         <i class="fa fa-circle fa-stack-2x"></i>
                         <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                     </span>
-                    <p>My Twitter Page</p>
                 </a>
             </div>
 		  </div>
       </div><br><br>
 	  
       <footer class="footer container">
-        <p>&copy; 2018 <a href="https://github.com/Tonemon/">Tonemon</a>. All rights reserved.
-			<a class="btn btn-sm btn-success pull-right" href="" role="button">&#8634;</a>
-			<a class="btn btn-sm btn-success pull-right" href="" role="button">
-                        <i class="fa fa-mobile"></i></a>
+        <p>&copy; 2018 <a href="https://github.com/Tonemon/">Tonemon</a>.
+			<a class="btn btn-sm btn-success pull-right js-scroll-trigger" href="#head">&#8593; Goto Top</a> 
+			<a class="btn btn-sm btn-success pull-right" role="button" disabled><i class="fa fa-mobile"></i> Mobile View</a>
 		</p>
       </footer>
 
@@ -143,5 +141,9 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	
+	<!-- Custom JS (scroll trigger) -->
+		<script src="js/jquery.easing.min.js"></script>
+		<script src="js/scroll.min.js"></script>
   </body>
 </html>
