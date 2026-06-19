@@ -1,5 +1,5 @@
 import { visit } from 'unist-util-visit'
-import type { Root, Element, Text } from 'hast'
+import type { Root, Element, ElementContent, Text } from 'hast'
 
 const CALLOUT_STYLES: Record<string, { border: string; titleColor: string; icon: string }> = {
   NOTE:       { border: '#58a6ff', titleColor: '#58a6ff', icon: '📝' },
@@ -18,12 +18,19 @@ function getCalloutType(node: Element): string | null {
   return match ? match[1].toUpperCase() : null
 }
 
-function allText(nodes: (Element | Text | { type: string })[]): string {
+function allText(nodes: ElementContent[]): string {
   return nodes.map(n => {
-    if (n.type === 'text') return (n as Text).value
-    if (n.type === 'element') return allText((n as Element).children as (Element | Text)[])
+    if (n.type === 'text') return n.value
+    if (n.type === 'element') return allText(n.children)
     return ''
   }).join('')
+}
+
+function parseDisclosureItems(lines: string[]): { date: string; event: string }[] {
+  return lines.map(l => {
+    const parts = l.replace(/^-\s*/, '').split(/\s*—\s*/)
+    return { date: parts[0]?.trim() ?? '', event: parts.slice(1).join(' — ').trim() || l }
+  })
 }
 
 export default function rehypeObsidianCallouts() {
@@ -35,42 +42,56 @@ export default function rehypeObsidianCallouts() {
       const style = CALLOUT_STYLES[type]
 
       const firstParagraph = node.children.find(c => (c as Element).type === 'element') as Element | undefined
-      const firstText = firstParagraph ? allText(firstParagraph.children as (Element | Text)[]) : ''
+      const firstText = firstParagraph ? allText(firstParagraph.children) : ''
       const titleText = firstText.replace(/^\[!\w+\]\s*/, '').trim()
       const bodyNodes = node.children.filter(c => c !== firstParagraph)
 
       if (type === 'DISCLOSURE') {
-        // Collect list items for timeline
         const lines: string[] = []
         bodyNodes.forEach(child => {
           const el = child as Element
           if (el.tagName === 'ul' || el.tagName === 'ol') {
             el.children.forEach(li => {
-              const text = allText((li as Element).children as (Element | Text)[]).trim()
-              if (text) lines.push(text)
+              const text = allText((li as Element).children)
+              if (text.trim()) lines.push(text.trim())
             })
           }
         })
+        const items = parseDisclosureItems(lines)
 
-        const items = lines.map(l => {
-          const parts = l.replace(/^-\s*/, '').split(/\s*—\s*/)
-          return { date: parts[0]?.trim() ?? '', event: parts.slice(1).join(' — ').trim() || l }
-        })
-
-        const timelineRows = items.map((item, i) => ({
-          type: 'raw' as const,
-          value: `<div style="display:flex;gap:12px;align-items:flex-start;${i < items.length - 1 ? 'padding-bottom:10px' : ''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:10px;height:10px;border-radius:50%;background:${style.border};margin-top:3px"></div>${i < items.length - 1 ? `<div style="width:2px;flex:1;background:#30363d;margin-top:2px;min-height:16px"></div>` : ''}</div><div style="font-size:11px;color:#8b949e;font-family:monospace;white-space:nowrap;padding-top:2px;min-width:90px">${item.date}</div><div style="font-size:12px;color:#e6edf3;padding-top:2px;line-height:1.4">${item.event}</div></div>`,
+        const timelineItems: Element[] = items.map((item, i) => ({
+          type: 'element',
+          tagName: 'div',
+          properties: { style: `display:flex;gap:12px;align-items:flex-start;${i < items.length - 1 ? 'padding-bottom:10px' : ''}` },
+          children: [
+            {
+              type: 'element',
+              tagName: 'div',
+              properties: { style: 'display:flex;flex-direction:column;align-items:center;flex-shrink:0' },
+              children: [
+                { type: 'element', tagName: 'div', properties: { style: `width:10px;height:10px;border-radius:50%;background:${style.border};margin-top:3px;flex-shrink:0` }, children: [] } as Element,
+                ...(i < items.length - 1 ? [{ type: 'element', tagName: 'div', properties: { style: 'width:2px;flex:1;background:#30363d;margin-top:2px;min-height:16px' }, children: [] } as Element] : []),
+              ],
+            } as Element,
+            { type: 'element', tagName: 'div', properties: { style: 'font-size:11px;color:#8b949e;font-family:monospace;white-space:nowrap;padding-top:2px;min-width:90px' }, children: [{ type: 'text', value: item.date }] } as Element,
+            { type: 'element', tagName: 'div', properties: { style: 'font-size:12px;color:#e6edf3;padding-top:2px;line-height:1.4' }, children: [{ type: 'text', value: item.event }] } as Element,
+          ],
         }))
 
-        const callout: Element = {
-          type: 'element', tagName: 'div',
+        const calloutEl: Element = {
+          type: 'element',
+          tagName: 'div',
           properties: { style: `background:#111820;border:1px solid #1f3a5a;border-radius:8px;padding:14px 16px;margin:1rem 0` },
           children: [
-            { type: 'element', tagName: 'div', properties: { style: `font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:${style.titleColor};margin-bottom:12px` }, children: [{ type: 'text', value: `${style.icon} ${titleText || 'Disclosure'}` }] } as Element,
-            ...timelineRows as unknown as Element[],
+            {
+              type: 'element', tagName: 'div',
+              properties: { style: `font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:${style.titleColor};margin-bottom:12px` },
+              children: [{ type: 'text', value: `${style.icon} ${titleText || 'Disclosure'}` }],
+            } as Element,
+            ...timelineItems,
           ],
         }
-        parent.children.splice(index, 1, callout)
+        parent.children.splice(index, 1, calloutEl)
         return
       }
 

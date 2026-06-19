@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import { getAllArticles } from './content'
 
 export interface SearchEntry {
@@ -22,8 +20,3 @@ export function buildSearchIndex(): SearchEntry[] {
   }))
 }
 
-export function writeSearchIndex(): void {
-  const index = buildSearchIndex()
-  const outPath = path.join(process.cwd(), 'public', 'search-index.json')
-  fs.writeFileSync(outPath, JSON.stringify(index))
-}

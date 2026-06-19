@@ -16,14 +16,15 @@ export default function ImageCarousel() {
   }, [closeLightbox])
 
   useEffect(() => {
-    const carousels = document.querySelectorAll('[data-carousel]')
-    carousels.forEach(carousel => {
-      const imgs = carousel.querySelectorAll('img')
-      imgs.forEach(img => {
-        img.style.cursor = 'zoom-in'
-        img.addEventListener('click', () => openLightbox(img.src))
-      })
+    const handlers: Array<[HTMLImageElement, () => void]> = []
+    document.querySelectorAll('[data-carousel] img').forEach(img => {
+      const el = img as HTMLImageElement
+      const handler = () => openLightbox(el.src)
+      el.style.cursor = 'zoom-in'
+      el.addEventListener('click', handler)
+      handlers.push([el, handler])
     })
+    return () => handlers.forEach(([el, h]) => el.removeEventListener('click', h))
   }, [openLightbox])
 
   if (!lightbox) return null
