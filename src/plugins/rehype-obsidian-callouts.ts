@@ -52,7 +52,8 @@ export default function rehypeObsidianCallouts() {
           const el = child as Element
           if (el.tagName === 'ul' || el.tagName === 'ol') {
             el.children.forEach(li => {
-              const text = allText((li as Element).children)
+              if (li.type !== 'element') return
+              const text = allText((li as Element).children ?? [])
               if (text.trim()) lines.push(text.trim())
             })
           }
