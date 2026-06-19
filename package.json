@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "date-fns": "^4.4.0",
+    "fuse.js": "^7.4.2",
+    "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "next": "16.2.9",
     "react": "19.2.4",
@@ -29,10 +31,12 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/hast": "^3.0.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/unist": "^3.0.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "jest": "^30.4.2",

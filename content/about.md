@@ -1,8 +1,6 @@
 ---
-title: About
+title: About me
 ---
-
-## About me
 
 I'm Tony, a cyber security student and researcher focused on offensive security, network analysis, and open source tooling.
 

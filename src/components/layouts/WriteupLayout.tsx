@@ -2,18 +2,35 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
+import SeriesNavigator from '@/components/SeriesNavigator'
+import ReadingProgressBar from '@/components/ReadingProgressBar'
+import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
+import { extractHeadings } from '@/lib/toc'
 
 interface WriteupLayoutProps {
   article: Article
   relatedArticles: ArticleMeta[]
+  seriesArticles: ArticleMeta[]
 }
 
-export default function WriteupLayout({ article, relatedArticles }: WriteupLayoutProps) {
+export default function WriteupLayout({ article, relatedArticles, seriesArticles }: WriteupLayoutProps) {
   const { title, date, category, tags, platform, difficulty, readingTime, contentHtml } = article
 
+  const seriesNav = article.series && seriesArticles.length > 1 ? (
+    <SeriesNavigator
+      seriesName={article.series}
+      parts={seriesArticles}
+      currentSlug={article.slug}
+    />
+  ) : null
+
+  const toc = extractHeadings(contentHtml)
+
   return (
-    <div className="px-10 py-7">
+    <>
+      <ReadingProgressBar />
+      <div className="px-14 py-7">
       <Link href="/writeups" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
         ← Writeups
       </Link>
@@ -37,7 +54,7 @@ export default function WriteupLayout({ article, relatedArticles }: WriteupLayou
               )}
             </div>
             <h1 className="text-[22px] font-bold text-gh-text leading-snug mb-2">{title}</h1>
-            <div className="flex gap-3 text-[12px] text-gh-muted mb-3">
+            <div className="flex gap-3 text-[13px] text-gh-muted mb-3">
               <span>{format(new Date(date), 'MMM d, yyyy')}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
@@ -51,9 +68,11 @@ export default function WriteupLayout({ article, relatedArticles }: WriteupLayou
             </div>
           </header>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+          <ImageCarousel />
         </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} />
+        <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} toc={toc} />
       </div>
     </div>
+    </>
   )
 }

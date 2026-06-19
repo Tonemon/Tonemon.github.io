@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
-import ArticleCard from '@/components/ArticleCard'
+import SearchBar from '@/components/SearchBar'
+import FeedClient from '@/components/FeedClient'
 import siteConfig from '../../site.config'
-import { GitHubIcon, LinkedInIcon } from '@/components/icons'
+import { LinkedInIcon } from '@/components/icons'
 import type { SocialIcon } from '@/types/content'
 
-const FOCUS_COLOR_STYLES: Record<string, string> = {
-  red:    'text-[#ff7b72] border-[#6e2020] bg-[#1a0a0a]',
-  purple: 'text-[#d2a8ff] border-[#5a3a7a] bg-[#1a0a2a]',
-  blue:   'text-[#79c0ff] border-[#1f4068] bg-[#0d1a2a]',
-  green:  'text-[#56d364] border-[#1a4a1a] bg-[#0a1a0a]',
-  yellow: 'text-[#f0c040] border-[#4a3a1a] bg-[#1a1a0a]',
+const FOCUS_COLOR_CLASS: Record<string, string> = {
+  red:    'focus-badge-red',
+  purple: 'focus-badge-purple',
+  blue:   'focus-badge-blue',
+  green:  'focus-badge-green',
+  yellow: 'focus-badge-yellow',
 }
 
 function SocialButton({ label, url, icon }: { label: string; url: string; icon: SocialIcon }) {
@@ -26,7 +27,10 @@ function SocialButton({ label, url, icon }: { label: string; url: string; icon: 
           : 'text-gh-text border-gh-border bg-gh-surface hover:border-gh-muted'
       }`}
     >
-      {icon === 'github' && <GitHubIcon className="w-4 h-4" />}
+      {icon === 'github' && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/avatar.png" alt="GitHub" className="w-4 h-4 rounded-full" />
+      )}
       {icon === 'linkedin' && <LinkedInIcon className="w-4 h-4" />}
       {label}
     </a>
@@ -39,13 +43,13 @@ export default function HomePage() {
   return (
     <>
       {/* Intro section (~1/3 vh) */}
-      <section className="min-h-[33vh] flex flex-col justify-center px-10 py-12 border-b border-gh-subtle">
+      <section className="min-h-[33vh] flex flex-col justify-center px-14 py-12 border-b border-gh-subtle">
         <div className="w-2/3">
-          <p className="text-[13px] text-gh-muted mb-2.5 tracking-wide">Hi there, I&apos;m</p>
+          <p className="text-[14px] text-gh-muted mb-2.5 tracking-wide">Hi there, I&apos;m</p>
           <h1 className="text-[36px] font-bold text-gh-text leading-tight mb-3.5">
             {siteConfig.name}<span className="text-gh-accent">.</span>
           </h1>
-          <p className="text-[15px] text-gh-muted leading-[1.7] mb-5">{siteConfig.bio}</p>
+          <p className="text-[16px] text-gh-muted leading-[1.7] mb-5">{siteConfig.bio}</p>
 
           {/* Currently focusing on */}
           <div className="flex items-center flex-wrap gap-2.5 mb-6">
@@ -54,7 +58,7 @@ export default function HomePage() {
               {siteConfig.focusBadges.map(badge => (
                 <span
                   key={badge.label}
-                  className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${FOCUS_COLOR_STYLES[badge.color] ?? FOCUS_COLOR_STYLES.blue}`}
+                  className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${FOCUS_COLOR_CLASS[badge.color] ?? 'focus-badge-blue'}`}
                 >
                   {badge.label}
                 </span>
@@ -72,36 +76,13 @@ export default function HomePage() {
       </section>
 
       {/* Feed section */}
-      <section className="px-10 py-8">
+      <section className="px-14 py-8">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[13px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
-          {/* Search — Plan 2 */}
+          <span className="text-[14px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
+          <SearchBar />
         </div>
 
-        {/* Category filter pills — static display, interactive in Plan 2 */}
-        <div className="flex gap-1.5 mb-5 flex-wrap">
-          {(['All', 'Writeups', 'Projects', 'Research'] as const).map(label => (
-            <span
-              key={label}
-              className={`text-[11px] px-3 py-0.5 rounded-full border cursor-default ${
-                label === 'All'
-                  ? 'text-gh-accent border-gh-accent bg-gh-accent/[0.08]'
-                  : 'text-gh-muted border-gh-border'
-              }`}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-
-        {/* Article feed */}
-        {articles.length === 0 ? (
-          <p className="text-gh-muted text-[14px] py-10">No articles yet — push a markdown file to content/ to get started.</p>
-        ) : (
-          articles.map(article => (
-            <ArticleCard key={`${article.category}-${article.slug}`} article={article} />
-          ))
-        )}
+        <FeedClient articles={articles} showFilter={true} />
       </section>
     </>
   )

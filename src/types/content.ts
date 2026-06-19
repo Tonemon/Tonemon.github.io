@@ -13,6 +13,7 @@ export interface FrontMatter {
   coverImage?: string
   paperUrl?: string
   paperCover?: string
+  projectUrl?: string
   platform?: Platform
   difficulty?: Difficulty
   series?: string
