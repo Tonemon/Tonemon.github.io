@@ -1,6 +1,3 @@
-export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const { writeSearchIndex } = await import('./lib/search-index')
-    writeSearchIndex()
-  }
+export function register() {
+  // Intentionally empty — search index and feed.xml are generated via Route Handlers
 }
