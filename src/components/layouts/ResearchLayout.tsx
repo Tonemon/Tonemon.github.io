@@ -2,15 +2,25 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
+import SeriesNavigator from '@/components/SeriesNavigator'
 import { CATEGORY_STYLES } from '@/components/badges'
 
 interface ResearchLayoutProps {
   article: Article
   relatedArticles: ArticleMeta[]
+  seriesArticles: ArticleMeta[]
 }
 
-export default function ResearchLayout({ article, relatedArticles }: ResearchLayoutProps) {
+export default function ResearchLayout({ article, relatedArticles, seriesArticles }: ResearchLayoutProps) {
   const { title, date, category, tags, readingTime, contentHtml, paperUrl, paperCover } = article
+
+  const seriesNav = article.series && seriesArticles.length > 1 ? (
+    <SeriesNavigator
+      seriesName={article.series}
+      parts={seriesArticles}
+      currentSlug={article.slug}
+    />
+  ) : null
 
   return (
     <div className="px-10 py-7">
@@ -41,7 +51,7 @@ export default function ResearchLayout({ article, relatedArticles }: ResearchLay
           </header>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
         </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} paperUrl={paperUrl} paperCover={paperCover} />
+        <Sidebar relatedArticles={relatedArticles} tags={tags} paperUrl={paperUrl} paperCover={paperCover} seriesNavigator={seriesNav} />
       </div>
     </div>
   )

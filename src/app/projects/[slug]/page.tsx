@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent } from '@/lib/content'
+import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent, getSeriesArticles } from '@/lib/content'
 import { markdownToHtml } from '@/lib/markdown'
 import ProjectLayout from '@/components/layouts/ProjectLayout'
 
@@ -31,5 +31,6 @@ export default async function ProjectPage({ params }: Props) {
   const rawContent = getArticleRawContent('project', slug)
   const contentHtml = await markdownToHtml(rawContent)
   const related = getRelatedArticles(article)
-  return <ProjectLayout article={{ ...article, contentHtml }} relatedArticles={related} />
+  const seriesArticles = article.series ? getSeriesArticles(article.series) : []
+  return <ProjectLayout article={{ ...article, contentHtml }} relatedArticles={related} seriesArticles={seriesArticles} />
 }

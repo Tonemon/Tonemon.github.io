@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent } from '@/lib/content'
+import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent, getSeriesArticles } from '@/lib/content'
 import { markdownToHtml } from '@/lib/markdown'
 import ResearchLayout from '@/components/layouts/ResearchLayout'
 
@@ -31,5 +31,6 @@ export default async function ResearchPage({ params }: Props) {
   const rawContent = getArticleRawContent('research', slug)
   const contentHtml = await markdownToHtml(rawContent)
   const related = getRelatedArticles(article)
-  return <ResearchLayout article={{ ...article, contentHtml }} relatedArticles={related} />
+  const seriesArticles = article.series ? getSeriesArticles(article.series) : []
+  return <ResearchLayout article={{ ...article, contentHtml }} relatedArticles={related} seriesArticles={seriesArticles} />
 }

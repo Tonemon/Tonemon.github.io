@@ -2,15 +2,25 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
+import SeriesNavigator from '@/components/SeriesNavigator'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
 
 interface ProjectLayoutProps {
   article: Article
   relatedArticles: ArticleMeta[]
+  seriesArticles: ArticleMeta[]
 }
 
-export default function ProjectLayout({ article, relatedArticles }: ProjectLayoutProps) {
+export default function ProjectLayout({ article, relatedArticles, seriesArticles }: ProjectLayoutProps) {
   const { title, date, category, tags, platform, difficulty, readingTime, contentHtml } = article
+
+  const seriesNav = article.series && seriesArticles.length > 1 ? (
+    <SeriesNavigator
+      seriesName={article.series}
+      parts={seriesArticles}
+      currentSlug={article.slug}
+    />
+  ) : null
 
   return (
     <div className="px-10 py-7">
@@ -52,7 +62,7 @@ export default function ProjectLayout({ article, relatedArticles }: ProjectLayou
           </header>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
         </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} />
+        <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} />
       </div>
     </div>
   )

@@ -8,11 +8,13 @@ interface SidebarProps {
   tags: string[]
   paperUrl?: string
   paperCover?: string
+  seriesNavigator?: React.ReactNode
 }
 
-export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover }: SidebarProps) {
+export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, seriesNavigator }: SidebarProps) {
   return (
     <aside className="border-l border-gh-subtle pl-5 sticky top-[68px] max-h-[calc(100vh-80px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {seriesNavigator}
 
       {/* PDF paper card — research only */}
       {paperUrl && (

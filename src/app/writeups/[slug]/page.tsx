@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent } from '@/lib/content'
+import { getArticle, getArticleSlugs, getRelatedArticles, getArticleRawContent, getSeriesArticles } from '@/lib/content'
 import { markdownToHtml } from '@/lib/markdown'
 import WriteupLayout from '@/components/layouts/WriteupLayout'
 
@@ -31,5 +31,6 @@ export default async function WriteupPage({ params }: Props) {
   const rawContent = getArticleRawContent('writeup', slug)
   const contentHtml = await markdownToHtml(rawContent)
   const related = getRelatedArticles(article)
-  return <WriteupLayout article={{ ...article, contentHtml }} relatedArticles={related} />
+  const seriesArticles = article.series ? getSeriesArticles(article.series) : []
+  return <WriteupLayout article={{ ...article, contentHtml }} relatedArticles={related} seriesArticles={seriesArticles} />
 }
