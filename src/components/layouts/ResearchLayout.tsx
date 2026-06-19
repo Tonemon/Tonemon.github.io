@@ -4,6 +4,7 @@ import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
 import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
+import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES } from '@/components/badges'
 
 interface ResearchLayoutProps {
@@ -53,6 +54,7 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
             </div>
           </header>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+          <ImageCarousel />
         </article>
         <Sidebar relatedArticles={relatedArticles} tags={tags} paperUrl={paperUrl} paperCover={paperCover} seriesNavigator={seriesNav} />
       </div>

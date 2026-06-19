@@ -4,6 +4,7 @@ import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
 import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
+import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
 
 interface WriteupLayoutProps {
@@ -64,6 +65,7 @@ export default function WriteupLayout({ article, relatedArticles, seriesArticles
             </div>
           </header>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+          <ImageCarousel />
         </article>
         <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} />
       </div>
