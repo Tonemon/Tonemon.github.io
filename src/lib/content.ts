@@ -81,6 +81,7 @@ export function getAllArticleMeta(): ArticleMeta[] {
           coverImage: a.coverImage,
           paperUrl: a.paperUrl,
           paperCover: a.paperCover,
+          projectUrl: a.projectUrl,
           platform: a.platform,
           difficulty: a.difficulty,
           series: a.series,

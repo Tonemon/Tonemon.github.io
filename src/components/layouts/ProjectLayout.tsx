@@ -6,6 +6,7 @@ import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
+import { extractHeadings } from '@/lib/toc'
 
 interface ProjectLayoutProps {
   article: Article
@@ -24,10 +25,12 @@ export default function ProjectLayout({ article, relatedArticles, seriesArticles
     />
   ) : null
 
+  const toc = extractHeadings(contentHtml)
+
   return (
     <>
       <ReadingProgressBar />
-      <div className="px-10 py-7">
+      <div className="px-14 py-7">
       <Link href="/projects" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
         ← Projects
       </Link>
@@ -67,7 +70,13 @@ export default function ProjectLayout({ article, relatedArticles, seriesArticles
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
           <ImageCarousel />
         </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} />
+        <Sidebar
+          relatedArticles={relatedArticles}
+          tags={tags}
+          seriesNavigator={seriesNav}
+          toc={toc}
+          projectUrl={article.projectUrl}
+        />
       </div>
     </div>
     </>

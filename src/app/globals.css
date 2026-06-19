@@ -35,6 +35,7 @@ html:not(.dark) {
 html {
   background-color: var(--bg);
   color: var(--text);
+  scroll-behavior: smooth;
 }
 
 html:not(.dark) body {
@@ -79,10 +80,23 @@ html:not(.dark) .prose-article td {
   padding: 0.5rem 0;
 }
 
+/* Focus badges */
+.focus-badge-red    { color: #ff7b72; border-color: #6e2020; background: #1a0a0a; }
+.focus-badge-purple { color: #d2a8ff; border-color: #5a3a7a; background: #1a0a2a; }
+.focus-badge-blue   { color: #79c0ff; border-color: #1f4068; background: #0d1a2a; }
+.focus-badge-green  { color: #56d364; border-color: #1a4a1a; background: #0a1a0a; }
+.focus-badge-yellow { color: #f0c040; border-color: #4a3a1a; background: #1a1a0a; }
+
+html:not(.dark) .focus-badge-red    { color: #b91c1c; border-color: #fca5a5; background: transparent; }
+html:not(.dark) .focus-badge-purple { color: #7c3aed; border-color: #c4b5fd; background: transparent; }
+html:not(.dark) .focus-badge-blue   { color: #1d4ed8; border-color: #93c5fd; background: transparent; }
+html:not(.dark) .focus-badge-green  { color: #15803d; border-color: #86efac; background: transparent; }
+html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; background: transparent; }
+
 /* Prose styles for article content */
 .prose-article {
   color: var(--muted);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   line-height: 1.8;
 }
 .prose-article h1,

@@ -6,6 +6,7 @@ import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES } from '@/components/badges'
+import { extractHeadings } from '@/lib/toc'
 
 interface ResearchLayoutProps {
   article: Article
@@ -24,10 +25,12 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
     />
   ) : null
 
+  const toc = extractHeadings(contentHtml)
+
   return (
     <>
       <ReadingProgressBar />
-      <div className="px-10 py-7">
+      <div className="px-14 py-7">
       <Link href="/research" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
         ← Research
       </Link>
@@ -56,7 +59,14 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
           <ImageCarousel />
         </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} paperUrl={paperUrl} paperCover={paperCover} seriesNavigator={seriesNav} />
+        <Sidebar
+          relatedArticles={relatedArticles}
+          tags={tags}
+          paperUrl={paperUrl}
+          paperCover={paperCover}
+          seriesNavigator={seriesNav}
+          toc={toc}
+        />
       </div>
     </div>
     </>

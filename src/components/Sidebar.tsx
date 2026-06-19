@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
 import type { ArticleMeta } from '@/types/content'
+import type { TocEntry } from '@/lib/toc'
 import { articleHref as buildHref } from '@/lib/urls'
 
 interface SidebarProps {
@@ -9,11 +10,27 @@ interface SidebarProps {
   paperUrl?: string
   paperCover?: string
   seriesNavigator?: React.ReactNode
+  toc?: TocEntry[]
+  projectUrl?: string
 }
 
-export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, seriesNavigator }: SidebarProps) {
+export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, seriesNavigator, toc, projectUrl }: SidebarProps) {
   return (
     <aside className="border-l border-gh-subtle pl-5 sticky top-[68px] max-h-[calc(100vh-80px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* Visit Project — project articles only */}
+      {projectUrl && (
+        <div className="mb-5">
+          <a
+            href={projectUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 w-full bg-[#238636] hover:bg-[#2ea043] text-white text-[12px] font-semibold py-2 rounded-md transition-colors"
+          >
+            ↗ Visit Project
+          </a>
+        </div>
+      )}
+
       {seriesNavigator}
 
       {/* PDF paper card — research only */}
@@ -47,6 +64,26 @@ export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, s
           >
             ↓ Download
           </a>
+        </div>
+      )}
+
+      {/* Table of Contents */}
+      {toc && toc.length > 0 && (
+        <div className="mb-6">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gh-muted mb-2">On this page</p>
+          {toc.map(entry => (
+            <a
+              key={entry.id}
+              href={`#${entry.id}`}
+              className={`block py-0.5 hover:text-gh-accent transition-colors border-l-2 hover:border-gh-accent ${
+                entry.level === 3
+                  ? 'pl-4 text-[10px] text-gh-muted border-gh-subtle'
+                  : 'pl-2 text-[11px] text-gh-accent border-gh-border'
+              }`}
+            >
+              {entry.text}
+            </a>
+          ))}
         </div>
       )}
 
