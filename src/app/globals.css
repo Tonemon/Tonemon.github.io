@@ -169,6 +169,43 @@ pre[data-lang]::before {
   letter-spacing: 0.05em;
 }
 
+/* CVE reference chips */
+.cve-ref {
+  color: #ff7b72;
+  background: rgba(255,123,114,0.1);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: monospace;
+  font-size: 0.875em;
+  cursor: default;
+  border-bottom: 1px dashed #ff7b72;
+  position: relative;
+  display: inline-block;
+}
+.cve-ref::after {
+  content: attr(data-cve) '\A' attr(data-severity) ' · CVSS ' attr(data-cvss) '\A' attr(data-desc);
+  white-space: pre-wrap;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 4px);
+  z-index: 50;
+  background: #1c2128;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: 280px;
+  font-family: var(--font-family-sans);
+  font-size: 11px;
+  color: var(--text);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.cve-ref:hover::after {
+  opacity: 1;
+}
+
 /* Image carousel */
 [data-carousel] {
   display: flex;
