@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
 import SeriesNavigator from '@/components/SeriesNavigator'
+import ReadingProgressBar from '@/components/ReadingProgressBar'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
 
 interface ProjectLayoutProps {
@@ -23,7 +24,9 @@ export default function ProjectLayout({ article, relatedArticles, seriesArticles
   ) : null
 
   return (
-    <div className="px-10 py-7">
+    <>
+      <ReadingProgressBar />
+      <div className="px-10 py-7">
       <Link href="/projects" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
         ← Projects
       </Link>
@@ -65,5 +68,6 @@ export default function ProjectLayout({ article, relatedArticles, seriesArticles
         <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} />
       </div>
     </div>
+    </>
   )
 }

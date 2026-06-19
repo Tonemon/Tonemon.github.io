@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
 import SeriesNavigator from '@/components/SeriesNavigator'
+import ReadingProgressBar from '@/components/ReadingProgressBar'
 import { CATEGORY_STYLES } from '@/components/badges'
 
 interface ResearchLayoutProps {
@@ -23,7 +24,9 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
   ) : null
 
   return (
-    <div className="px-10 py-7">
+    <>
+      <ReadingProgressBar />
+      <div className="px-10 py-7">
       <Link href="/research" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
         ← Research
       </Link>
@@ -54,5 +57,6 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
         <Sidebar relatedArticles={relatedArticles} tags={tags} paperUrl={paperUrl} paperCover={paperCover} seriesNavigator={seriesNav} />
       </div>
     </div>
+    </>
   )
 }
