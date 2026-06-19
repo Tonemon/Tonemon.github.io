@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { GitHubIcon } from './icons'
+import ThemeToggle from './ThemeToggle'
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -20,21 +21,11 @@ export default function Navbar() {
         <div className="flex-1" />
         <div className="flex items-center gap-6 text-[13px]">
           {NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="text-gh-muted hover:text-gh-text transition-colors"
-            >
+            <Link key={href} href={href} className="text-gh-muted hover:text-gh-text transition-colors">
               {label}
             </Link>
           ))}
-          {/* Dark mode toggle — implemented in Plan 2 */}
-          <button
-            disabled
-            className="rounded border border-gh-border px-2 py-0.5 text-[12px] text-gh-muted opacity-50 cursor-not-allowed"
-          >
-            ☀ Light
-          </button>
+          <ThemeToggle />
         </div>
       </div>
     </nav>

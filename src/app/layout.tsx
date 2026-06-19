@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&d)){document.documentElement.classList.add('dark');}})();` }} />
+        <link rel="alternate" type="application/rss+xml" title="Tony's Blog" href="/feed.xml" />
+      </head>
       <body className="min-h-screen bg-gh-bg text-gh-text antialiased">
         <Navbar />
         <main>{children}</main>
