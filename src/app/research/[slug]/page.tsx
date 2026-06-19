@@ -14,7 +14,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { slug } = await params
     const article = getArticle('research', slug)
-    return { title: article.title, description: article.excerpt }
+    return {
+      title: article.title,
+      description: article.excerpt,
+      openGraph: {
+        title: article.title,
+        description: article.excerpt,
+        images: [`/og/research/${slug}`],
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: article.title,
+        description: article.excerpt,
+        images: [`/og/research/${slug}`],
+      },
+    }
   } catch {
     return {}
   }

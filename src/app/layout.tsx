@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import siteConfig from '../../site.config'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
   description: siteConfig.bio,
   icons: {
