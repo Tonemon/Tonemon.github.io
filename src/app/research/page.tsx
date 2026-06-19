@@ -21,7 +21,7 @@ export default function ResearchPage() {
     <div className="px-14 py-8">
       <div className="mb-8 pb-6 border-b border-gh-subtle">
         <h1 className="text-[32px] font-bold text-gh-text mb-1.5">Research</h1>
-        <p className="text-[14px] text-gh-muted mb-5">Academic papers, experiments, and technical deep-dives.</p>
+        <p className="text-[15px] text-gh-muted mb-5">Academic papers, experiments, and technical deep-dives.</p>
         <div className="flex items-center gap-3">
           <SearchBar />
           <div className="flex items-center gap-2 ml-auto">

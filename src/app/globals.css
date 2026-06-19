@@ -96,7 +96,7 @@ html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; bac
 /* Prose styles for article content */
 .prose-article {
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.8;
 }
 .prose-article h1,
@@ -151,6 +151,9 @@ html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; bac
 /* Anchor links on headings */
 .group-heading:hover .anchor-link {
   opacity: 1 !important;
+}
+.no-heading-anchors .anchor-link {
+  display: none;
 }
 
 /* Terminal code blocks */

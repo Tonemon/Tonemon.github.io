@@ -45,11 +45,11 @@ export default function HomePage() {
       {/* Intro section (~1/3 vh) */}
       <section className="min-h-[33vh] flex flex-col justify-center px-14 py-12 border-b border-gh-subtle">
         <div className="w-2/3">
-          <p className="text-[13px] text-gh-muted mb-2.5 tracking-wide">Hi there, I&apos;m</p>
+          <p className="text-[14px] text-gh-muted mb-2.5 tracking-wide">Hi there, I&apos;m</p>
           <h1 className="text-[36px] font-bold text-gh-text leading-tight mb-3.5">
             {siteConfig.name}<span className="text-gh-accent">.</span>
           </h1>
-          <p className="text-[15px] text-gh-muted leading-[1.7] mb-5">{siteConfig.bio}</p>
+          <p className="text-[16px] text-gh-muted leading-[1.7] mb-5">{siteConfig.bio}</p>
 
           {/* Currently focusing on */}
           <div className="flex items-center flex-wrap gap-2.5 mb-6">
@@ -78,7 +78,7 @@ export default function HomePage() {
       {/* Feed section */}
       <section className="px-14 py-8">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[13px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
+          <span className="text-[14px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
           <SearchBar />
         </div>
 

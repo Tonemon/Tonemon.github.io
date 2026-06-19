@@ -34,14 +34,14 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
                 <span className="text-[10px] text-gh-muted">{difficultyInfo.label}</span>
               </span>
             )}
-            <span className="text-[11px] text-gh-muted ml-auto">
+            <span className="text-[12px] text-gh-muted ml-auto">
               {readingTime} min read · {format(new Date(date), 'MMM d, yyyy')}
             </span>
           </div>
-          <h2 className="text-[16px] font-semibold text-gh-text leading-snug mb-1.5 group-hover:text-gh-accent transition-colors">
+          <h2 className="text-[17px] font-semibold text-gh-text leading-snug mb-1.5 group-hover:text-gh-accent transition-colors">
             {title}
           </h2>
-          <p className="text-[12px] text-gh-muted leading-relaxed mb-2 line-clamp-2">{excerpt}</p>
+          <p className="text-[13px] text-gh-muted leading-relaxed mb-2 line-clamp-2">{excerpt}</p>
           <div className="flex gap-1.5 flex-wrap">
             {tags.map(tag => (
               <span key={tag} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5">

@@ -43,7 +43,7 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
               </span>
             </div>
             <h1 className="text-[22px] font-bold text-gh-text leading-snug mb-2">{title}</h1>
-            <div className="flex gap-3 text-[12px] text-gh-muted mb-3">
+            <div className="flex gap-3 text-[13px] text-gh-muted mb-3">
               <span>{format(new Date(date), 'MMM d, yyyy')}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
