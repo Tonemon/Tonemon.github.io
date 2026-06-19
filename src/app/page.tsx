@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
-import ArticleCard from '@/components/ArticleCard'
 import SearchBar from '@/components/SearchBar'
+import FeedClient from '@/components/FeedClient'
 import siteConfig from '../../site.config'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons'
 import type { SocialIcon } from '@/types/content'
@@ -79,30 +79,7 @@ export default function HomePage() {
           <SearchBar />
         </div>
 
-        {/* Category filter pills — static display, interactive in Plan 2 */}
-        <div className="flex gap-1.5 mb-5 flex-wrap">
-          {(['All', 'Writeups', 'Projects', 'Research'] as const).map(label => (
-            <span
-              key={label}
-              className={`text-[11px] px-3 py-0.5 rounded-full border cursor-default ${
-                label === 'All'
-                  ? 'text-gh-accent border-gh-accent bg-gh-accent/[0.08]'
-                  : 'text-gh-muted border-gh-border'
-              }`}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-
-        {/* Article feed */}
-        {articles.length === 0 ? (
-          <p className="text-gh-muted text-[14px] py-10">No articles yet — push a markdown file to content/ to get started.</p>
-        ) : (
-          articles.map(article => (
-            <ArticleCard key={`${article.category}-${article.slug}`} article={article} />
-          ))
-        )}
+        <FeedClient articles={articles} showFilter={true} />
       </section>
     </>
   )
