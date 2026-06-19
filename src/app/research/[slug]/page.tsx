@@ -7,7 +7,8 @@ import ResearchLayout from '@/components/layouts/ResearchLayout'
 interface Props { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  return getArticleSlugs('research').map(slug => ({ slug }))
+  const slugs = getArticleSlugs('research')
+  return slugs.length ? slugs.map(slug => ({ slug })) : [{ slug: '__empty__' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

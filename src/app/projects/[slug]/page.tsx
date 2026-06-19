@@ -7,7 +7,8 @@ import ProjectLayout from '@/components/layouts/ProjectLayout'
 interface Props { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  return getArticleSlugs('project').map(slug => ({ slug }))
+  const slugs = getArticleSlugs('project')
+  return slugs.length ? slugs.map(slug => ({ slug })) : [{ slug: '__empty__' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -30,49 +30,52 @@ export default function WriteupLayout({ article, relatedArticles, seriesArticles
   return (
     <>
       <ReadingProgressBar />
-      <div className="px-14 py-7">
-      <Link href="/writeups" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
-        ← Writeups
-      </Link>
-      <div className="grid grid-cols-[3fr_1fr]">
-        <article className="pr-7 min-w-0">
-          <header className="mb-5">
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${CATEGORY_STYLES[category]}`}>
-                {category}
-              </span>
-              {platform && (
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${PLATFORM_STYLES[platform].style}`}>
-                  {PLATFORM_STYLES[platform].label}
+      <div className="px-4 sm:px-14 py-7">
+        <Link href="/writeups" className="text-[12px] text-gh-muted hover:text-gh-accent mb-4 inline-block">
+          ← Writeups
+        </Link>
+        <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr]">
+          <article className="pr-0 md:pr-7 min-w-0">
+            <header className="mb-5">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${CATEGORY_STYLES[category]}`}>
+                  {category}
                 </span>
-              )}
-              {difficulty && (
-                <span className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${DIFFICULTY_STYLES[difficulty].color}`} />
-                  <span className="text-[10px] text-gh-muted">{DIFFICULTY_STYLES[difficulty].label}</span>
-                </span>
-              )}
-            </div>
-            <h1 className="text-[22px] font-bold text-gh-text leading-snug mb-2">{title}</h1>
-            <div className="flex gap-3 text-[13px] text-gh-muted mb-3">
-              <span>{format(new Date(date), 'MMM d, yyyy')}</span>
-              <span>·</span>
-              <span>{readingTime} min read</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {tags.map(tag => (
-                <Link key={tag} href={`/tags/${tag}`} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors">
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </header>
-          <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
-          <ImageCarousel />
-        </article>
-        <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} toc={toc} />
+                {platform && (
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${PLATFORM_STYLES[platform].style}`}>
+                    {PLATFORM_STYLES[platform].label}
+                  </span>
+                )}
+                {difficulty && (
+                  <span className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${DIFFICULTY_STYLES[difficulty].color}`} />
+                    <span className="text-[10px] text-gh-muted">{DIFFICULTY_STYLES[difficulty].label}</span>
+                  </span>
+                )}
+              </div>
+              <h1 className="text-[22px] font-bold text-gh-text leading-snug mb-2">{title}</h1>
+              <div className="flex gap-3 text-[13px] text-gh-muted mb-3">
+                <span>{format(new Date(date), 'MMM d, yyyy')}</span>
+                <span>·</span>
+                <span>{readingTime} min read</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {tags.map(tag => (
+                  <Link key={tag} href={`/tags/${tag}`} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors">
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+              {seriesNav && <div className="md:hidden mt-5">{seriesNav}</div>}
+            </header>
+            <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+            <ImageCarousel />
+          </article>
+          <div className="hidden md:block">
+            <Sidebar relatedArticles={relatedArticles} tags={tags} seriesNavigator={seriesNav} toc={toc} />
+          </div>
+        </div>
       </div>
-    </div>
     </>
   )
 }

@@ -18,13 +18,13 @@ export default function WriteupsPage() {
   const popularTags = getPopularTags(articles)
 
   return (
-    <div className="px-14 py-8">
+    <div className="px-4 sm:px-14 py-8">
       <div className="mb-8 pb-6 border-b border-gh-subtle">
         <h1 className="text-[32px] font-bold text-gh-text mb-1.5">Writeups</h1>
         <p className="text-[15px] text-gh-muted mb-5">CTF solutions, penetration test reports, and vulnerability analyses.</p>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <SearchBar />
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-2 sm:ml-auto flex-wrap">
             <span className="text-[11px] text-gh-muted whitespace-nowrap">Popular:</span>
             <div className="flex gap-1.5 flex-wrap">
               {popularTags.map(tag => (

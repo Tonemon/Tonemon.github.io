@@ -17,13 +17,13 @@ export default async function AboutPage() {
   const popularTags = getAllTags().sort((a, b) => b.count - a.count).slice(0, 8).map(t => t.tag)
 
   return (
-    <div className="px-14 py-12 min-h-[calc(100vh-52px)] flex flex-col justify-center">
-      <div className="grid grid-cols-[2fr_1fr]">
-        <div className="pr-10 border-r border-gh-subtle">
+    <div className="px-4 sm:px-14 py-12 min-h-[calc(100vh-62px)] flex flex-col justify-center">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
+        <div className="pr-0 md:pr-10 md:border-r border-gh-subtle">
           <h1 className="text-[22px] font-bold text-gh-text mb-6">About</h1>
           <div className="prose-article no-heading-anchors" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
-        <aside className="pl-8 self-start sticky top-[78px]">
+        <aside className="hidden md:block pl-8 self-start sticky top-[78px]">
           <div className="mb-7">
             <p className="text-[12px] font-bold uppercase tracking-widest text-gh-muted mb-3">Read Posts</p>
             {recentArticles.map(a => (

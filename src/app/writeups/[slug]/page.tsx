@@ -7,7 +7,8 @@ import WriteupLayout from '@/components/layouts/WriteupLayout'
 interface Props { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  return getArticleSlugs('writeup').map(slug => ({ slug }))
+  const slugs = getArticleSlugs('writeup')
+  return slugs.length ? slugs.map(slug => ({ slug })) : [{ slug: '__empty__' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

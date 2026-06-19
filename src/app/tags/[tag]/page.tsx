@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { getAllArticles, getAllTags } from '@/lib/content'
 import ArticleCard from '@/components/ArticleCard'
 
 interface Props { params: Promise<{ tag: string }> }
 
 export async function generateStaticParams() {
-  return getAllTags().map(({ tag }) => ({ tag }))
+  const tags = getAllTags()
+  return tags.length ? tags.map(({ tag }) => ({ tag })) : [{ tag: '__empty__' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -15,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TagPage({ params }: Props) {
   const { tag } = await params
+  if (!getAllTags().some(t => t.tag === tag)) notFound()
   const articles = getAllArticles().filter(a => a.tags.includes(tag))
   return (
     <div className="px-10 py-8">
