@@ -1,6 +1,5 @@
-import type { Config } from 'jest'
-
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   projects: [
     // CJS project for tests that don't need ESM deps
     {
@@ -15,7 +14,7 @@ const config: Config = {
         '**/tests/lib/content.test.ts',
       ],
     },
-    // ESM project for tests that use ESM-only packages
+    // ESM project for tests that use ESM-only packages (unified, remark, rehype)
     {
       displayName: 'esm',
       preset: 'ts-jest/presets/default-esm',
@@ -35,4 +34,4 @@ const config: Config = {
   ],
 }
 
-export default config
+module.exports = config
