@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
 import ArticleCard from '@/components/ArticleCard'
+import SearchBar from '@/components/SearchBar'
 import siteConfig from '../../site.config'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons'
 import type { SocialIcon } from '@/types/content'
@@ -75,7 +76,7 @@ export default function HomePage() {
       <section className="px-10 py-8">
         <div className="flex items-center justify-between mb-4">
           <span className="text-[13px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
-          {/* Search — Plan 2 */}
+          <SearchBar />
         </div>
 
         {/* Category filter pills — static display, interactive in Plan 2 */}
