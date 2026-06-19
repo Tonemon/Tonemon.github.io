@@ -1,16 +1,13 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
 import type { ArticleMeta } from '@/types/content'
+import { articleHref as buildHref } from '@/lib/urls'
 
 interface SidebarProps {
   relatedArticles: ArticleMeta[]
   tags: string[]
   paperUrl?: string
   paperCover?: string
-}
-
-function articleHref(article: ArticleMeta): string {
-  return `/${article.category}s/${article.slug}`
 }
 
 export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover }: SidebarProps) {
@@ -58,7 +55,7 @@ export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover }:
           {relatedArticles.map(article => (
             <Link
               key={article.slug}
-              href={articleHref(article)}
+              href={buildHref(article.category, article.slug)}
               className="block text-gh-accent text-[11px] border-b border-gh-subtle pb-2 mb-2 leading-snug hover:underline"
             >
               {article.title}

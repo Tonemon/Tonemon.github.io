@@ -2,10 +2,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import type { ArticleMeta } from '@/types/content'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from './badges'
-
-function articleHref(article: ArticleMeta): string {
-  return `/${article.category}s/${article.slug}`
-}
+import { articleHref as buildHref } from '@/lib/urls'
 
 export default function ArticleCard({ article }: { article: ArticleMeta }) {
   const { title, date, category, tags, excerpt, coverImage, platform, difficulty, readingTime } = article
@@ -13,7 +10,7 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
   const difficultyInfo = difficulty ? DIFFICULTY_STYLES[difficulty] : null
 
   return (
-    <Link href={articleHref(article)} className="group block">
+    <Link href={buildHref(article.category, article.slug)} className="group block">
       <div className="flex gap-4 items-start py-6 border-b border-gh-subtle">
         {coverImage && (
           <div

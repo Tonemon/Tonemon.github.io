@@ -33,6 +33,7 @@ describe('getArticle', () => {
 describe('getAllArticles', () => {
   it('returns articles sorted newest first', () => {
     const articles = getAllArticles()
+    expect(articles.length).toBeGreaterThanOrEqual(2)
     for (let i = 1; i < articles.length; i++) {
       expect(new Date(articles[i - 1].date).getTime())
         .toBeGreaterThanOrEqual(new Date(articles[i].date).getTime())

@@ -50,6 +50,8 @@ export function getArticle(category: Category, slug: string): Article {
   const fm = data as FrontMatter
   return {
     ...fm,
+    tags: fm.tags ?? [],
+    category: fm.category ?? category,
     slug,
     contentHtml: '',
     readingTime: readingTime(content),
@@ -105,8 +107,22 @@ export function getSeriesArticles(seriesName: string): ArticleMeta[] {
     .sort((a, b) => (a.series_part ?? 0) - (b.series_part ?? 0))
 }
 
+export function getAllTags(): { tag: string; count: number }[] {
+  const tagCounts = new Map<string, number>()
+  getAllArticleMeta().forEach(article => {
+    article.tags.forEach(tag => {
+      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
+    })
+  })
+  return Array.from(tagCounts.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => a.tag.localeCompare(b.tag))
+}
+
 export function getRelatedArticles(current: ArticleMeta, count = 3): ArticleMeta[] {
-  const all = getAllArticleMeta().filter(a => a.slug !== current.slug)
+  const all = getAllArticleMeta().filter(
+    a => !(a.slug === current.slug && a.category === current.category)
+  )
   const scored = all.map(a => {
     const sharedTags = a.tags.filter(t => current.tags.includes(t)).length
     const sameCategory = a.category === current.category ? 1 : 0
