@@ -7,8 +7,14 @@ import { readingTime } from './reading-time'
 export const CONTENT_DIR =
   process.env.CONTENT_DIR_OVERRIDE || path.join(process.cwd(), 'content')
 
+const CATEGORY_DIRS: Record<Category, string> = {
+  writeup: 'writeups',
+  project: 'projects',
+  research: 'research',
+}
+
 function categoryDir(category: Category): string {
-  return path.join(CONTENT_DIR, `${category}s`)
+  return path.join(CONTENT_DIR, CATEGORY_DIRS[category])
 }
 
 function stripDatePrefix(filename: string): string {
