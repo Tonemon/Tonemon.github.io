@@ -17,7 +17,7 @@ export default function ImageCarousel() {
 
   useEffect(() => {
     const handlers: Array<[HTMLImageElement, () => void]> = []
-    document.querySelectorAll('[data-carousel] img').forEach(img => {
+    document.querySelectorAll('.prose-article img').forEach(img => {
       const el = img as HTMLImageElement
       const handler = () => openLightbox(el.src)
       el.style.cursor = 'zoom-in'

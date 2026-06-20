@@ -241,8 +241,19 @@ pre[data-lang]::before {
 [data-carousel] img {
   scroll-snap-align: start;
   flex-shrink: 0;
-  max-height: 300px;
+  max-height: min(960px, 80vh);
   width: auto;
   border-radius: 6px;
   border: 1px solid var(--border);
+}
+[data-carousel] figure {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+[data-carousel] figure img {
+  max-height: min(960px, 80vh);
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  flex-shrink: unset;
 }

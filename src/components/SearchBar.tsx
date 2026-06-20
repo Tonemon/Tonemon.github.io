@@ -6,9 +6,22 @@ import type { SearchEntry } from '@/lib/search-index'
 import { articleHref } from '@/lib/urls'
 import type { Category } from '@/types/content'
 
+import type { FuseResult } from 'fuse.js'
+type SearchResult = FuseResult<SearchEntry>
+
+function getSnippet(result: SearchResult): string | null {
+  const contentMatch = result.matches?.find(m => m.key === 'content')
+  if (!contentMatch || !contentMatch.indices.length) return null
+  const [start] = contentMatch.indices[0]
+  const text = result.item.content
+  const from = Math.max(0, start - 40)
+  const to = Math.min(text.length, start + 120)
+  return (from > 0 ? '…' : '') + text.slice(from, to) + (to < text.length ? '…' : '')
+}
+
 export default function SearchBar() {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<SearchEntry[]>([])
+  const [results, setResults] = useState<SearchResult[]>([])
   const [open, setOpen] = useState(false)
   const fuseRef = useRef<Fuse<SearchEntry> | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -19,8 +32,14 @@ export default function SearchBar() {
       .then(r => r.json())
       .then((entries: SearchEntry[]) => {
         fuseRef.current = new Fuse(entries, {
-          keys: ['title', 'excerpt', 'tags'],
+          keys: [
+            { name: 'title', weight: 0.5 },
+            { name: 'tags', weight: 0.3 },
+            { name: 'excerpt', weight: 0.15 },
+            { name: 'content', weight: 0.05 },
+          ],
           threshold: 0.35,
+          includeMatches: true,
         })
       })
   }, [])
@@ -43,7 +62,7 @@ export default function SearchBar() {
       setOpen(false)
       return
     }
-    const hits = fuseRef.current.search(q).slice(0, 6).map(r => r.item)
+    const hits = fuseRef.current.search(q).slice(0, 6)
     setResults(hits)
     setOpen(hits.length > 0)
   }
@@ -61,18 +80,25 @@ export default function SearchBar() {
         />
       </div>
       {open && (
-        <div className="absolute right-0 top-[calc(100%+4px)] w-[320px] bg-gh-surface border border-gh-border rounded-md shadow-lg z-50 overflow-hidden">
-          {results.map(entry => (
-            <Link
-              key={`${entry.category}-${entry.slug}`}
-              href={articleHref(entry.category as Category, entry.slug)}
-              onClick={() => { setOpen(false); setQuery('') }}
-              className="flex flex-col px-3 py-2.5 hover:bg-gh-bg transition-colors border-b border-gh-subtle last:border-0"
-            >
-              <span className="text-[13px] font-medium text-gh-text leading-snug">{entry.title}</span>
-              <span className="text-[11px] text-gh-muted mt-0.5">{entry.category} · {entry.date.slice(0, 7)}</span>
-            </Link>
-          ))}
+        <div className="absolute right-0 top-[calc(100%+4px)] w-[340px] bg-gh-surface border border-gh-border rounded-md shadow-lg z-50 overflow-hidden">
+          {results.map(result => {
+            const entry = result.item
+            const snippet = getSnippet(result)
+            return (
+              <Link
+                key={`${entry.category}-${entry.slug}`}
+                href={articleHref(entry.category as Category, entry.slug)}
+                onClick={() => { setOpen(false); setQuery('') }}
+                className="flex flex-col px-3 py-2.5 hover:bg-gh-bg transition-colors border-b border-gh-subtle last:border-0"
+              >
+                <span className="text-[13px] font-medium text-gh-text leading-snug">{entry.title}</span>
+                <span className="text-[11px] text-gh-muted mt-0.5">{entry.category} · {entry.date.slice(0, 7)}</span>
+                {snippet && (
+                  <span className="text-[11px] text-gh-muted mt-1 leading-relaxed line-clamp-2">{snippet}</span>
+                )}
+              </Link>
+            )
+          })}
         </div>
       )}
     </div>
