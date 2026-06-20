@@ -13,6 +13,8 @@ import rehypeCveLinks from '@/plugins/rehype-cve-links'
 import rehypeAnchorLinks from '@/plugins/rehype-anchor-links'
 import rehypeCodeDistinction from '@/plugins/rehype-code-distinction'
 import rehypeImageCarousel from '@/plugins/rehype-image-carousel'
+import rehypeExternalLinks from '@/plugins/rehype-external-links'
+import rehypeImageCaptions from '@/plugins/rehype-image-captions'
 import { fetchCveInfo } from '@/lib/cve-data'
 
 export async function markdownToHtml(content: string): Promise<string> {
@@ -46,6 +48,8 @@ export async function markdownToHtml(content: string): Promise<string> {
     })
     .use(rehypeCodeDistinction)
     .use(rehypeAnchorLinks)
+    .use(rehypeExternalLinks)
+    .use(rehypeImageCaptions)
     .use(rehypeImageCarousel)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content)
