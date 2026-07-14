@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getArticlesByCategory } from '@/lib/content'
-import ArticleCard from '@/components/ArticleCard'
-import SearchBar from '@/components/SearchBar'
 import type { ArticleMeta } from '@/types/content'
 import { tagHref } from '@/lib/urls'
+import CategoryPageClient from '@/components/CategoryPageClient'
 
 export const metadata: Metadata = { title: 'Research' }
 
@@ -23,9 +22,8 @@ export default function ResearchPage() {
       <div className="mb-8 pb-6 border-b border-gh-subtle">
         <h1 className="text-[32px] font-bold text-gh-text mb-1.5">Research</h1>
         <p className="text-[15px] text-gh-muted mb-5">Academic papers, experiments, and technical deep-dives.</p>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <SearchBar />
-          <div className="flex items-center gap-2 sm:ml-auto flex-wrap">
+        {popularTags.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[11px] text-gh-muted whitespace-nowrap">Popular:</span>
             <div className="flex gap-1.5 flex-wrap">
               {popularTags.map(tag => (
@@ -39,13 +37,9 @@ export default function ResearchPage() {
               ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
-      {articles.length === 0 ? (
-        <p className="text-gh-muted text-[14px]">No research articles yet.</p>
-      ) : (
-        articles.map(a => <ArticleCard key={a.slug} article={a} />)
-      )}
+      <CategoryPageClient articles={articles} emptyMessage="No research articles yet." />
     </div>
   )
 }

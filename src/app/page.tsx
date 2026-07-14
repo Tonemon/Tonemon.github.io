@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
-import SearchBar from '@/components/SearchBar'
 import FeedClient from '@/components/FeedClient'
 import siteConfig from '../../site.config'
 import { LinkedInIcon } from '@/components/icons'
@@ -77,12 +76,7 @@ export default function HomePage() {
 
       {/* Feed section */}
       <section className="px-14 py-8">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[14px] font-bold uppercase tracking-widest text-gh-muted">All posts</span>
-          <SearchBar />
-        </div>
-
-        <FeedClient articles={articles} showFilter={true} />
+        <FeedClient articles={articles} />
       </section>
     </>
   )
