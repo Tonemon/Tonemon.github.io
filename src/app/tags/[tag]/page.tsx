@@ -1,23 +1,27 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllArticles, getAllTags } from '@/lib/content'
+import { tagToSlug } from '@/lib/urls'
 import ArticleCard from '@/components/ArticleCard'
 
 interface Props { params: Promise<{ tag: string }> }
 
 export async function generateStaticParams() {
   const tags = getAllTags()
-  return tags.length ? tags.map(({ tag }) => ({ tag })) : [{ tag: '__empty__' }]
+  return tags.length ? tags.map(({ tag }) => ({ tag: tagToSlug(tag) })) : [{ tag: '__empty__' }]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { tag } = await params
-  return { title: `#${tag}` }
+  const { tag: slug } = await params
+  const match = getAllTags().find(t => tagToSlug(t.tag) === slug)
+  return { title: match ? `#${match.tag}` : `#${slug}` }
 }
 
 export default async function TagPage({ params }: Props) {
-  const { tag } = await params
-  if (!getAllTags().some(t => t.tag === tag)) notFound()
+  const { tag: slug } = await params
+  const match = getAllTags().find(t => tagToSlug(t.tag) === slug)
+  if (!match) notFound()
+  const tag = match.tag
   const articles = getAllArticles().filter(a => a.tags.includes(tag))
   return (
     <div className="px-10 py-8">

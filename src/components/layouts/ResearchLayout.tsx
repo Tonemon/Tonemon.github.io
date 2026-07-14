@@ -7,6 +7,7 @@ import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
 import { CATEGORY_STYLES } from '@/components/badges'
 import { extractHeadings } from '@/lib/toc'
+import { tagHref } from '@/lib/urls'
 
 interface ResearchLayoutProps {
   article: Article
@@ -50,7 +51,7 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {tags.map(tag => (
-                  <Link key={tag} href={`/tags/${tag}`} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors">
+                  <Link key={tag} href={tagHref(tag)} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors">
                     {tag}
                   </Link>
                 ))}

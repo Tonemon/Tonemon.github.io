@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllTags } from '@/lib/content'
+import { tagHref } from '@/lib/urls'
 
 export const metadata: Metadata = { title: 'Tags' }
 
@@ -16,7 +17,7 @@ export default function TagsPage() {
           {tags.map(({ tag, count }) => (
             <Link
               key={tag}
-              href={`/tags/${tag}`}
+              href={tagHref(tag)}
               className="flex items-center gap-1.5 text-[12px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-3 py-1 hover:border-gh-accent transition-colors"
             >
               {tag}

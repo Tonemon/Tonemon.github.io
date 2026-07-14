@@ -5,7 +5,7 @@ import matter from 'gray-matter'
 import Link from 'next/link'
 import { markdownToHtml } from '@/lib/markdown'
 import { getAllArticles, getAllTags } from '@/lib/content'
-import { articleHref } from '@/lib/urls'
+import { articleHref, tagHref } from '@/lib/urls'
 
 export const metadata: Metadata = { title: 'About' }
 
@@ -45,7 +45,7 @@ export default async function AboutPage() {
               {popularTags.map(tag => (
                 <Link
                   key={tag}
-                  href={`/tags/${tag}`}
+                  href={tagHref(tag)}
                   className="text-[13px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-3 py-0.5 hover:border-gh-accent transition-colors"
                 >
                   {tag}

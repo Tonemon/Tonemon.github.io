@@ -4,6 +4,7 @@ import { getArticlesByCategory } from '@/lib/content'
 import ArticleCard from '@/components/ArticleCard'
 import SearchBar from '@/components/SearchBar'
 import type { ArticleMeta } from '@/types/content'
+import { tagHref } from '@/lib/urls'
 
 export const metadata: Metadata = { title: 'Research' }
 
@@ -30,7 +31,7 @@ export default function ResearchPage() {
               {popularTags.map(tag => (
                 <Link
                   key={tag}
-                  href={`/tags/${tag}`}
+                  href={tagHref(tag)}
                   className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors"
                 >
                   {tag}

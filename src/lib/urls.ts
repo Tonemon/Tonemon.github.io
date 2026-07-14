@@ -9,3 +9,11 @@ const CATEGORY_PATHS: Record<Category, string> = {
 export function articleHref(category: Category, slug: string): string {
   return `/${CATEGORY_PATHS[category]}/${slug}`
 }
+
+export function tagToSlug(tag: string): string {
+  return tag.toLowerCase().replace(/\s+/g, '-')
+}
+
+export function tagHref(tag: string): string {
+  return `/tags/${tagToSlug(tag)}`
+}

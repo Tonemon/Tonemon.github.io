@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import type { ArticleMeta } from '@/types/content'
 import type { TocEntry } from '@/lib/toc'
-import { articleHref as buildHref } from '@/lib/urls'
+import { articleHref as buildHref, tagHref } from '@/lib/urls'
 
 interface SidebarProps {
   relatedArticles: ArticleMeta[]
@@ -114,7 +114,7 @@ export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, s
             {tags.map(tag => (
               <Link
                 key={tag}
-                href={`/tags/${tag}`}
+                href={tagHref(tag)}
                 className="text-[13px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-3 py-0.5 hover:border-gh-accent transition-colors"
               >
                 {tag}
