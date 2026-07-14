@@ -87,6 +87,24 @@ export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, s
         </div>
       )}
 
+      {/* Related tags */}
+      {tags.length > 0 && (
+        <div className="mb-7">
+          <p className="text-[12px] font-bold uppercase tracking-widest text-gh-muted mb-3">Related tags</p>
+          <div className="flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <Link
+                key={tag}
+                href={tagHref(tag)}
+                className="text-[13px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-3 py-0.5 hover:border-gh-accent transition-colors"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Read more */}
       {relatedArticles.length > 0 && (
         <div className="mb-7">
@@ -103,24 +121,6 @@ export default function Sidebar({ relatedArticles, tags, paperUrl, paperCover, s
               </small>
             </Link>
           ))}
-        </div>
-      )}
-
-      {/* Related tags */}
-      {tags.length > 0 && (
-        <div>
-          <p className="text-[12px] font-bold uppercase tracking-widest text-gh-muted mb-3">Related tags</p>
-          <div className="flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <Link
-                key={tag}
-                href={tagHref(tag)}
-                className="text-[13px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-3 py-0.5 hover:border-gh-accent transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
         </div>
       )}
     </aside>

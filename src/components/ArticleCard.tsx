@@ -5,7 +5,7 @@ import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from './badges'
 import { articleHref as buildHref } from '@/lib/urls'
 
 export default function ArticleCard({ article }: { article: ArticleMeta }) {
-  const { title, date, category, tags, excerpt, coverImage, platform, difficulty, readingTime } = article
+  const { title, date, category, tags, excerpt, coverImage, platform, difficulty, readingTime, authors } = article
   const platformInfo = platform ? PLATFORM_STYLES[platform] : null
   const difficultyInfo = difficulty ? DIFFICULTY_STYLES[difficulty] : null
 
@@ -36,6 +36,9 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
             )}
             <span className="text-[12px] text-gh-muted ml-auto">
               {readingTime} min read · {format(new Date(date), 'MMM d, yyyy')}
+              {authors && authors.length > 0 && (
+                <> · by {authors.map(a => a.name).join(', ')}</>
+              )}
             </span>
           </div>
           <h2 className="text-[17px] font-semibold text-gh-text leading-snug mb-1.5 group-hover:text-gh-accent transition-colors">

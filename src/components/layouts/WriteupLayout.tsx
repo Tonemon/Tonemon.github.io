@@ -16,7 +16,7 @@ interface WriteupLayoutProps {
 }
 
 export default function WriteupLayout({ article, relatedArticles, seriesArticles }: WriteupLayoutProps) {
-  const { title, date, category, tags, platform, difficulty, readingTime, contentHtml } = article
+  const { title, date, category, tags, platform, difficulty, readingTime, contentHtml, authors } = article
 
   const seriesNav = article.series && seriesArticles.length > 1 ? (
     <SeriesNavigator
@@ -59,6 +59,20 @@ export default function WriteupLayout({ article, relatedArticles, seriesArticles
                 <span>{format(new Date(date), 'MMM d, yyyy')}</span>
                 <span>·</span>
                 <span>{readingTime} min read</span>
+                {authors && authors.length > 0 && (
+                  <>
+                    <span>·</span>
+                    <span>
+                      by{' '}
+                      {authors.map((a, i) => (
+                        <span key={a.url}>
+                          <a href={a.url} target="_blank" rel="noopener noreferrer" className="hover:text-gh-accent transition-colors">{a.name}</a>
+                          {i < authors.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </span>
+                  </>
+                )}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {tags.map(tag => (

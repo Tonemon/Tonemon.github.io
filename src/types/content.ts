@@ -1,4 +1,9 @@
 export type Category = 'writeup' | 'project' | 'research'
+
+export interface Author {
+  name: string
+  url: string
+}
 export type Platform = 'hackthebox' | 'tryhackme' | 'vulnhub' | 'ctfd'
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'insane'
 export type FocusColor = 'red' | 'purple' | 'blue' | 'green' | 'yellow'
@@ -18,6 +23,7 @@ export interface FrontMatter {
   difficulty?: Difficulty
   series?: string
   series_part?: number
+  authors?: Author[]
 }
 
 export interface ArticleMeta extends FrontMatter {

@@ -86,6 +86,7 @@ export function getAllArticleMeta(): ArticleMeta[] {
           difficulty: a.difficulty,
           series: a.series,
           series_part: a.series_part,
+          authors: a.authors,
           slug,
           readingTime: a.readingTime,
         } satisfies ArticleMeta
