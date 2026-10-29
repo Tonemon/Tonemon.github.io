@@ -35,13 +35,15 @@ export default function rehypeCodeDistinction() {
           children: [{ type: 'text', value: '● ● ●' }],
         })
       }
-      header.push(
-        {
+      if (label) {
+        header.push({
           type: 'element',
           tagName: 'span',
           properties: { className: ['code-label'] },
           children: [{ type: 'text', value: label }],
-        },
+        })
+      }
+      header.push(
         {
           type: 'element',
           tagName: 'button',
@@ -54,8 +56,10 @@ export default function rehypeCodeDistinction() {
         ...node.properties,
         ...(terminal ? { 'data-terminal': 'true' } : { 'data-lang': lang }),
       }
+      // Unlabelled blocks get no header bar, only a copy button floating over the code
+      const headerClass = label ? ['code-header'] : ['code-header', 'code-header-floating']
       node.children = [
-        { type: 'element', tagName: 'div', properties: { className: ['code-header'] }, children: header },
+        { type: 'element', tagName: 'div', properties: { className: headerClass }, children: header },
         pre,
       ]
     })

@@ -44,7 +44,9 @@ describe('markdownToHtml', () => {
     expect(ini).toContain('data-lang="ini"')
     expect(ini).toContain('<span class="code-label">ini</span>')
     const text = await markdownToHtml('```text\nhello\n```')
-    expect(text).toContain('<span class="code-label"></span>')
+    expect(text).toContain('class="code-header code-header-floating"')
+    expect(text).not.toContain('code-label')
+    expect(text).toContain('class="code-copy"')
   })
 
   it('uses a code block title as the header label', async () => {
