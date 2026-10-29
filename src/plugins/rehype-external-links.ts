@@ -12,7 +12,7 @@ export default function rehypeExternalLinks() {
       if (href.startsWith('/') || href.startsWith('#')) return
 
       node.properties.target = '_blank'
-      node.properties.rel = 'noopener noreferrer'
+      node.properties.rel = ['noopener', 'noreferrer']
     })
   }
 }
