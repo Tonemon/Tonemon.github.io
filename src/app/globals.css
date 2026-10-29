@@ -189,6 +189,25 @@ pre[data-lang]::before {
   letter-spacing: 0.05em;
 }
 
+/* Mermaid diagrams (rendered client-side by MermaidDiagrams) */
+.prose-article pre.mermaid {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: pre;
+}
+.prose-article pre.mermaid[data-rendered] {
+  display: flex;
+  justify-content: center;
+  white-space: normal;
+}
+.prose-article pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* CVE reference chips */
 .cve-ref {
   color: #ff7b72;
