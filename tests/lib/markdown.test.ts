@@ -39,6 +39,12 @@ describe('markdownToHtml', () => {
     expect(html).toContain('class="code-copy"')
   })
 
+  it.each(['console', 'powershell', 'fish', 'cmd'])('treats %s blocks as terminal blocks', async lang => {
+    const html = await markdownToHtml('```' + lang + '\necho hi\n```')
+    expect(html).toContain('data-terminal="true"')
+    expect(html).toContain('<span class="code-label">terminal</span>')
+  })
+
   it('labels code blocks by language, and leaves plain text unlabelled', async () => {
     const ini = await markdownToHtml('```ini\n[usim]\nk = 1\n```')
     expect(ini).toContain('data-lang="ini"')

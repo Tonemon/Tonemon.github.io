@@ -1,7 +1,12 @@
 import { visit } from 'unist-util-visit'
 import type { Root, Element, ElementContent, Text } from 'hast'
 
-const TERMINAL_LANGS = new Set(['bash', 'sh', 'zsh', 'shell'])
+const TERMINAL_LANGS = new Set([
+  'bash', 'sh', 'zsh', 'shell', 'shellscript', 'fish', 'nu', 'nushell',
+  'console', 'shellsession',
+  'powershell', 'ps', 'ps1', 'pwsh',
+  'cmd', 'bat', 'batch',
+])
 const PLAIN_LANGS = new Set(['text', 'txt', 'plaintext', 'code'])
 
 // Runs after rehype-pretty-code: gives every code figure a header bar with a
