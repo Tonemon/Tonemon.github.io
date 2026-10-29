@@ -15,6 +15,7 @@ import rehypeCodeDistinction from '@/plugins/rehype-code-distinction'
 import rehypeImageCarousel from '@/plugins/rehype-image-carousel'
 import rehypeExternalLinks from '@/plugins/rehype-external-links'
 import rehypeImageCaptions from '@/plugins/rehype-image-captions'
+import rehypeMermaidBlocks from '@/plugins/rehype-mermaid-blocks'
 import { fetchCveInfo } from '@/lib/cve-data'
 
 export async function markdownToHtml(content: string): Promise<string> {
@@ -41,6 +42,7 @@ export async function markdownToHtml(content: string): Promise<string> {
     .use(rehypeObsidianCallouts)
     .use(rehypeEmbeddedFiles)
     .use(rehypeCveLinks, cveData)
+    .use(rehypeMermaidBlocks)
     .use(rehypeKatex)
     .use(rehypePrettyCode, {
       theme: 'github-dark',

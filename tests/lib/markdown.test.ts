@@ -24,6 +24,14 @@ describe('markdownToHtml', () => {
     expect(html).toContain('my-article')
   })
 
+  it('turns mermaid fences into unhighlighted mermaid blocks', async () => {
+    const md = '```mermaid\nflowchart LR\n  a --> b\n```'
+    const html = await markdownToHtml(md)
+    expect(html).toContain('<pre class="mermaid"')
+    expect(html).toContain('data-source="flowchart LR\n  a --> b"')
+    expect(html).not.toContain('data-language="mermaid"')
+  })
+
   it('renders fenced code blocks', async () => {
     const md = '```python\nprint("hello")\n```'
     const html = await markdownToHtml(md)

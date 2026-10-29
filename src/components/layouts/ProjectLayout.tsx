@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar'
 import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
+import MermaidDiagrams from '@/components/MermaidDiagrams'
 import { CATEGORY_STYLES, PLATFORM_STYLES, DIFFICULTY_STYLES } from '@/components/badges'
 import { extractHeadings } from '@/lib/toc'
 import { tagHref } from '@/lib/urls'
@@ -97,6 +98,7 @@ export default function ProjectLayout({ article, relatedArticles, seriesArticles
             </header>
             <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
             <ImageCarousel />
+            <MermaidDiagrams />
           </article>
           <div className="hidden md:block">
             <Sidebar
