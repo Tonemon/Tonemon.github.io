@@ -1,7 +1,7 @@
 import { getAllArticles } from '@/lib/content'
 import FeedClient from '@/components/FeedClient'
 import siteConfig from '../../site.config'
-import { LinkedInIcon } from '@/components/icons'
+import { LinkedInIcon, RssIcon } from '@/components/icons'
 import type { SocialIcon } from '@/types/content'
 
 const FOCUS_COLOR_CLASS: Record<string, string> = {
@@ -14,11 +14,11 @@ const FOCUS_COLOR_CLASS: Record<string, string> = {
 
 function SocialButton({ label, url, icon }: { label: string; url: string; icon: SocialIcon }) {
   const isLinkedIn = icon === 'linkedin'
+  const isExternal = url.startsWith('http')
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
       className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-[13px] font-medium border transition-colors ${
         isLinkedIn
           ? 'text-gh-accent border-[#1f4068] bg-gh-bg hover:border-gh-accent'
@@ -30,6 +30,7 @@ function SocialButton({ label, url, icon }: { label: string; url: string; icon: 
         <img src="/avatar.png" alt="GitHub" className="w-4 h-4 rounded-full" />
       )}
       {icon === 'linkedin' && <LinkedInIcon className="w-4 h-4" />}
+      {icon === 'rss' && <RssIcon className="w-4 h-4 text-[#f26522]" />}
       {label}
     </a>
   )

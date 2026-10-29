@@ -13,3 +13,13 @@ export function LinkedInIcon({ className }: { className?: string }) {
     </svg>
   )
 }
+
+export function RssIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M2 1.5a.5.5 0 0 1 .5-.5A12.5 12.5 0 0 1 15 13.5a.5.5 0 0 1-.5.5h-1.5a.5.5 0 0 1-.5-.5A10 10 0 0 0 2.5 3.5.5.5 0 0 1 2 3V1.5z" />
+      <path d="M2 6.5a.5.5 0 0 1 .5-.5A7.5 7.5 0 0 1 10 13.5a.5.5 0 0 1-.5.5H8a.5.5 0 0 1-.5-.5 5 5 0 0 0-5-5 .5.5 0 0 1-.5-.5V6.5z" />
+      <circle cx="3.5" cy="12.5" r="1.5" />
+    </svg>
+  )
+}

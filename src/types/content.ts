@@ -7,7 +7,7 @@ export interface Author {
 export type Platform = 'hackthebox' | 'tryhackme' | 'vulnhub' | 'ctfd'
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'insane'
 export type FocusColor = 'red' | 'purple' | 'blue' | 'green' | 'yellow'
-export type SocialIcon = 'github' | 'linkedin' | 'twitter' | 'email'
+export type SocialIcon = 'github' | 'linkedin' | 'twitter' | 'email' | 'rss'
 
 export interface FrontMatter {
   title: string

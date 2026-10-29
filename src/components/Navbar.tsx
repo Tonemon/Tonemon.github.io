@@ -2,6 +2,20 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import { RssIcon } from './icons'
+
+function RssButton() {
+  return (
+    <a
+      href="/feed.xml"
+      className="rounded border border-gh-border p-1 text-gh-muted hover:text-[#f26522] hover:border-gh-muted transition-colors"
+      aria-label="RSS feed"
+      title="RSS feed"
+    >
+      <RssIcon className="h-[14px] w-[14px]" />
+    </a>
+  )
+}
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -29,10 +43,14 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <RssButton />
+          </div>
         </div>
         <div className="flex sm:hidden items-center gap-3">
           <ThemeToggle />
+          <RssButton />
           <button
             onClick={() => setOpen(o => !o)}
             className="text-gh-muted hover:text-gh-text p-1"

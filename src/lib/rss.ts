@@ -12,7 +12,8 @@ function escapeXml(str: string): string {
 }
 
 function articleToItem(article: ArticleMeta): string {
-  const url = `${siteConfig.url}${articleHref(article.category, article.slug)}`
+  // Trailing slash matches the site's canonical URLs (next.config trailingSlash)
+  const url = `${siteConfig.url}${articleHref(article.category, article.slug)}/`
   return `
   <item>
     <title>${escapeXml(article.title)}</title>
@@ -24,14 +25,16 @@ function articleToItem(article: ArticleMeta): string {
   </item>`
 }
 
+export const FEED_TITLE = "Tony's Blog"
+
 export function generateRssFeed(): string {
   const articles = getAllArticles()
   const items = articles.map(articleToItem).join('')
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(siteConfig.name)}</title>
-    <link>${siteConfig.url}</link>
+    <title>${escapeXml(FEED_TITLE)}</title>
+    <link>${siteConfig.url}/</link>
     <description>${escapeXml(siteConfig.bio)}</description>
     <language>en</language>
     <atom:link href="${siteConfig.url}/feed.xml" rel="self" type="application/rss+xml"/>

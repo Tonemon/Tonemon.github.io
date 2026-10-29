@@ -13,6 +13,7 @@ const siteConfig: SiteConfig = {
   socials: [
     { label: 'GitHub', url: 'https://github.com/Tonemon', icon: 'github' },
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/tonymunzer/', icon: 'linkedin' },
+    { label: 'RSS', url: '/feed.xml', icon: 'rss' },
   ],
 }
 

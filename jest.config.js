@@ -12,6 +12,7 @@ const config = {
       testMatch: [
         '**/tests/lib/reading-time.test.ts',
         '**/tests/lib/content.test.ts',
+        '**/tests/lib/rss.test.ts',
       ],
     },
     // ESM project for tests that use ESM-only packages (unified, remark, rehype)
