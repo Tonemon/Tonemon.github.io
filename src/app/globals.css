@@ -283,6 +283,11 @@ html:not(.dark) .prose-article figure[data-lang] pre span {
   max-width: 100%;
   height: auto;
 }
+/* Mermaid's light theme fills subgraphs yellow; use the site palette instead */
+.prose-article pre.mermaid .cluster rect {
+  fill: var(--subtle) !important;
+  stroke: var(--border) !important;
+}
 
 /* CVE reference chips */
 .cve-ref {
