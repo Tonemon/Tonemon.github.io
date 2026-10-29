@@ -32,6 +32,27 @@ describe('markdownToHtml', () => {
     expect(html).not.toContain('data-language="mermaid"')
   })
 
+  it('gives shell blocks a terminal header with a copy button', async () => {
+    const html = await markdownToHtml('```bash\necho hi\n```')
+    expect(html).toContain('data-terminal="true"')
+    expect(html).toContain('<span class="code-label">terminal</span>')
+    expect(html).toContain('class="code-copy"')
+  })
+
+  it('labels code blocks by language, and leaves plain text unlabelled', async () => {
+    const ini = await markdownToHtml('```ini\n[usim]\nk = 1\n```')
+    expect(ini).toContain('data-lang="ini"')
+    expect(ini).toContain('<span class="code-label">ini</span>')
+    const text = await markdownToHtml('```text\nhello\n```')
+    expect(text).toContain('<span class="code-label"></span>')
+  })
+
+  it('uses a code block title as the header label', async () => {
+    const html = await markdownToHtml('```yaml title="mme.yaml"\na: 1\n```')
+    expect(html).toContain('<span class="code-label">mme.yaml</span>')
+    expect(html).not.toContain('<figcaption')
+  })
+
   it('renders fenced code blocks', async () => {
     const md = '```python\nprint("hello")\n```'
     const html = await markdownToHtml(md)

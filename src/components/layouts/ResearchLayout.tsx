@@ -6,6 +6,7 @@ import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
 import MermaidDiagrams from '@/components/MermaidDiagrams'
+import CodeCopyButtons from '@/components/CodeCopyButtons'
 import { CATEGORY_STYLES } from '@/components/badges'
 import { extractHeadings } from '@/lib/toc'
 import { tagHref } from '@/lib/urls'
@@ -95,6 +96,7 @@ export default function ResearchLayout({ article, relatedArticles, seriesArticle
             <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
             <ImageCarousel />
             <MermaidDiagrams />
+            <CodeCopyButtons />
           </article>
           <div className="hidden md:block">
             <Sidebar

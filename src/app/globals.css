@@ -159,34 +159,96 @@ html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; bac
   display: none;
 }
 
-/* Terminal code blocks */
-pre[data-terminal] {
-  background: #1a1a1a !important;
-  position: relative;
+/* Code blocks (rehype-pretty-code + rehype-code-distinction).
+   Regular blocks follow the site theme, terminal blocks are always dark. */
+.prose-article figure[data-rehype-pretty-code-figure] {
+  --code-bg: var(--surface);
+  --code-header-bg: var(--subtle);
+  --code-border: var(--border);
+  --code-muted: var(--muted);
+  margin: 1.25rem 0;
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--code-bg);
 }
-pre[data-terminal]::before {
-  content: '● ● ●';
-  display: block;
-  color: #555;
-  font-size: 10px;
-  letter-spacing: 3px;
-  padding: 8px 12px 0;
-  font-family: monospace;
+.prose-article figure[data-terminal] {
+  --code-bg: #0d1117;
+  --code-header-bg: #161b22;
+  --code-border: #30363d;
+  --code-muted: #8b949e;
 }
-pre[data-terminal] code {
-  color: #e6e6e6;
+.prose-article figure[data-rehype-pretty-code-figure] pre {
+  margin: 0;
+  border-radius: 0;
+  padding: 0.85rem 0;
+  background: var(--code-bg);
+  font-family: var(--font-family-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.prose-article figure[data-rehype-pretty-code-figure] [data-line] {
+  padding: 0 1rem;
+}
+.prose-article figure[data-rehype-pretty-code-figure] [data-highlighted-line] {
+  background: rgba(88, 166, 255, 0.12);
+  box-shadow: inset 2px 0 0 var(--accent);
 }
 
-/* Regular code blocks with language label */
-pre[data-lang]::before {
-  content: attr(data-lang);
-  display: block;
+/* Token colors: dark by default, light when the site is in light mode */
+.prose-article figure[data-rehype-pretty-code-figure] pre,
+.prose-article figure[data-rehype-pretty-code-figure] pre span {
+  color: var(--shiki-dark);
+}
+html:not(.dark) .prose-article figure[data-lang] pre,
+html:not(.dark) .prose-article figure[data-lang] pre span {
+  color: var(--shiki-light);
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2rem;
+  padding: 0 0.5rem 0 1rem;
+  background: var(--code-header-bg);
+  border-bottom: 1px solid var(--code-border);
+  font-family: var(--font-family-mono);
   font-size: 11px;
+  color: var(--code-muted);
+}
+.code-dots {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #6e7681;
+}
+.code-label {
+  flex: 1;
   font-weight: 600;
-  color: var(--muted);
-  padding: 6px 12px 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+.code-copy {
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--code-border);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--code-muted);
+  font: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+.prose-article figure:hover .code-copy,
+.code-copy:focus-visible {
+  opacity: 1;
+}
+.code-copy:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+@media (hover: none) {
+  .code-copy { opacity: 1; }
 }
 
 /* Mermaid diagrams (rendered client-side by MermaidDiagrams) */

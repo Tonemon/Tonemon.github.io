@@ -45,7 +45,7 @@ export async function markdownToHtml(content: string): Promise<string> {
     .use(rehypeMermaidBlocks)
     .use(rehypeKatex)
     .use(rehypePrettyCode, {
-      theme: 'github-dark',
+      theme: { dark: 'github-dark', light: 'github-light' },
       keepBackground: true,
     })
     .use(rehypeCodeDistinction)
