@@ -38,7 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/unist": "^3.0.3",
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "^16.4.3",
     "jest": "^30.4.2",
     "tailwindcss": "^4",
