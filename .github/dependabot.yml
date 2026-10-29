@@ -7,3 +7,12 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # @types/node tracks the Node version CI builds with (deploy.yml: node 20)
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Majors need a manual compatibility check with eslint-config-next / Next.js
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
