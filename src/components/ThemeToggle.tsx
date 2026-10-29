@@ -1,20 +1,23 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+
+// The inline script in layout.tsx sets the `dark` class before hydration,
+// so the class on <html> is the single source of truth for the theme.
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  return () => observer.disconnect()
+}
+
+function getSnapshot() {
+  return document.documentElement.classList.contains('dark')
+}
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(true)
-
-  useEffect(() => {
-    const stored = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const isDark = stored ? stored === 'dark' : prefersDark
-    setDark(isDark)
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [])
+  const dark = useSyncExternalStore(subscribe, getSnapshot, () => true)
 
   function toggle() {
     const next = !dark
-    setDark(next)
     localStorage.setItem('theme', next ? 'dark' : 'light')
     document.documentElement.classList.toggle('dark', next)
   }

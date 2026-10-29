@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
 import FeedClient from '@/components/FeedClient'
 import siteConfig from '../../site.config'

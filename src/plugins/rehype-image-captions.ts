@@ -32,7 +32,7 @@ export default function rehypeImageCaptions() {
       }
 
       // Replace the img node with the figure
-      ;(parent.children as any)[index] = figure
+      parent.children[index] = figure
       return SKIP
     })
   }
