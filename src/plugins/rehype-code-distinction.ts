@@ -7,6 +7,8 @@ const TERMINAL_LANGS = new Set([
   'powershell', 'ps', 'ps1', 'pwsh',
   'cmd', 'bat', 'batch',
 ])
+// Command output: dark like a terminal, but without dots or highlighting
+const OUTPUT_LANGS = new Set(['output', 'out', 'stdout'])
 const PLAIN_LANGS = new Set(['text', 'txt', 'plaintext', 'code'])
 
 // Runs after rehype-pretty-code: gives every code figure a header bar with a
@@ -19,6 +21,7 @@ export default function rehypeCodeDistinction() {
       const pre = node.children.find((c): c is Element => c.type === 'element' && c.tagName === 'pre')
       if (!pre) return
       const lang = String(pre.properties['data-language'] ?? '')
+      const output = OUTPUT_LANGS.has(lang)
       const terminal = TERMINAL_LANGS.has(lang)
 
       // A ```lang title="..." caption becomes the header label instead
@@ -29,7 +32,8 @@ export default function rehypeCodeDistinction() {
         .filter((c): c is Text => c.type === 'text')
         .map(c => c.value)
         .join('')
-      const label = title || (terminal ? 'terminal' : PLAIN_LANGS.has(lang) ? '' : lang)
+      const label =
+        title || (terminal ? 'terminal' : output ? 'output' : PLAIN_LANGS.has(lang) ? '' : lang)
 
       const header: ElementContent[] = []
       if (terminal) {
@@ -59,7 +63,11 @@ export default function rehypeCodeDistinction() {
 
       node.properties = {
         ...node.properties,
-        ...(terminal ? { 'data-terminal': 'true' } : { 'data-lang': lang }),
+        ...(terminal
+          ? { 'data-terminal': 'true' }
+          : output
+            ? { 'data-terminal': 'true', 'data-output': 'true' }
+            : { 'data-lang': lang }),
       }
       // Unlabelled blocks get no header bar, only a copy button floating over the code
       const headerClass = label ? ['code-header'] : ['code-header', 'code-header-floating']

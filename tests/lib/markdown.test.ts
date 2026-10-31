@@ -45,6 +45,14 @@ describe('markdownToHtml', () => {
     expect(html).toContain('<span class="code-label">terminal</span>')
   })
 
+  it('renders output blocks as dark, dotless terminal output', async () => {
+    const html = await markdownToHtml('```output\nPING 8.8.8.8\n```')
+    expect(html).toContain('data-terminal="true"')
+    expect(html).toContain('data-output="true"')
+    expect(html).toContain('<span class="code-label">output</span>')
+    expect(html).not.toContain('code-dots')
+  })
+
   it('labels code blocks by language, and leaves plain text unlabelled', async () => {
     const ini = await markdownToHtml('```ini\n[usim]\nk = 1\n```')
     expect(ini).toContain('data-lang="ini"')

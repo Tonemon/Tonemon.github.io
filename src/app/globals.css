@@ -178,6 +178,21 @@ html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; bac
   --code-border: #30363d;
   --code-muted: #8b949e;
 }
+/* An output block right after its command block reads as one terminal */
+.prose-article figure[data-terminal]:not([data-output]) + figure[data-output] {
+  margin-top: -1.25rem;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.prose-article figure[data-terminal]:not([data-output]):has(+ figure[data-output]) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.prose-article figure[data-output] pre,
+.prose-article figure[data-output] pre span {
+  color: #b1bac4;
+}
 .prose-article figure[data-rehype-pretty-code-figure] pre {
   margin: 0;
   border-radius: 0;
