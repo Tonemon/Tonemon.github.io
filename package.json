@@ -16,7 +16,7 @@
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "mermaid": "^11.17.2",
-    "next": "^16.4.3",
+    "next": "^16.4.5",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "rehype-katex": "^7.0.1",
@@ -27,7 +27,7 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "remark-wiki-link": "^2.0.1",
-    "shiki": "^4.2.0",
+    "shiki": "^4.6.0",
     "unified": "^11.0.5"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "@types/react-dom": "^19",
     "@types/unist": "^3.0.3",
     "eslint": "^9",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.5",
     "jest": "^30.4.2",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.11",
