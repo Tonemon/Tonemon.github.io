@@ -13,6 +13,11 @@ describe('markdownToHtml', () => {
     expect(html).toContain('<table>')
   })
 
+  it('wraps tables in a scroll container so wide tables do not widen the page', async () => {
+    const html = await markdownToHtml(`| A | B |\n|---|---|\n| 1 | 2 |`)
+    expect(html).toMatch(/<div class="table-scroll"><table>/)
+  })
+
   it('renders inline math', async () => {
     const html = await markdownToHtml('Equation: $x^2$')
     expect(html).toContain('katex')

@@ -15,6 +15,7 @@ import rehypeCodeDistinction from '@/plugins/rehype-code-distinction'
 import rehypeImageCarousel from '@/plugins/rehype-image-carousel'
 import rehypeExternalLinks from '@/plugins/rehype-external-links'
 import rehypeImageCaptions from '@/plugins/rehype-image-captions'
+import rehypeTableScroll from '@/plugins/rehype-table-scroll'
 import rehypeMermaidBlocks from '@/plugins/rehype-mermaid-blocks'
 import { fetchCveInfo } from '@/lib/cve-data'
 
@@ -52,6 +53,7 @@ export async function markdownToHtml(content: string): Promise<string> {
     .use(rehypeAnchorLinks)
     .use(rehypeExternalLinks)
     .use(rehypeImageCaptions)
+    .use(rehypeTableScroll)
     .use(rehypeImageCarousel)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content)

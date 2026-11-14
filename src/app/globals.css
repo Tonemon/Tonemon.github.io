@@ -134,16 +134,21 @@ html:not(.dark) .version-notice-icon, html:not(.dark) .version-notice-link { col
   padding: 0.1em 0.4em;
   font-size: 0.875em;
   color: var(--text);
+  /* Long paths and hashes may break so they don't widen the page on phones */
+  overflow-wrap: anywhere;
 }
 .prose-article pre {
   border-radius: 8px;
   overflow-x: auto;
   margin: 1rem 0;
 }
+.prose-article .table-scroll {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
 .prose-article table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
   font-size: 0.875rem;
 }
 .prose-article th, .prose-article td {
