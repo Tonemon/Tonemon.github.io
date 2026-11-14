@@ -17,3 +17,7 @@ export function tagToSlug(tag: string): string {
 export function tagHref(tag: string): string {
   return `/tags/${tagToSlug(tag)}`
 }
+
+export function articleVersionHref(category: Category, slug: string, version: number): string {
+  return `${articleHref(category, slug)}/v${version}`
+}
