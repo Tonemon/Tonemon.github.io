@@ -1,7 +1,8 @@
-import { format } from 'date-fns'
 import Link from 'next/link'
 import type { Article, ArticleMeta } from '@/types/content'
 import Sidebar from '@/components/Sidebar'
+import ArticleByline from '@/components/ArticleByline'
+import OldVersionNotice from '@/components/OldVersionNotice'
 import SeriesNavigator from '@/components/SeriesNavigator'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 import ImageCarousel from '@/components/ImageCarousel'
@@ -18,7 +19,7 @@ interface WriteupLayoutProps {
 }
 
 export default function WriteupLayout({ article, relatedArticles, seriesArticles }: WriteupLayoutProps) {
-  const { title, date, category, tags, platform, difficulty, readingTime, contentHtml, authors } = article
+  const { title, category, tags, platform, difficulty, contentHtml } = article
 
   const seriesNav = article.series && seriesArticles.length > 1 ? (
     <SeriesNavigator
@@ -57,25 +58,7 @@ export default function WriteupLayout({ article, relatedArticles, seriesArticles
                 )}
               </div>
               <h1 className="text-[22px] font-bold text-gh-text leading-snug mb-2">{title}</h1>
-              <div className="flex gap-3 text-[13px] text-gh-muted mb-3">
-                <span>{format(new Date(date), 'MMM d, yyyy')}</span>
-                <span>·</span>
-                <span>{readingTime} min read</span>
-                {authors && authors.length > 0 && (
-                  <>
-                    <span>·</span>
-                    <span>
-                      by{' '}
-                      {authors.map((a, i) => (
-                        <span key={a.url}>
-                          <a href={a.url} target="_blank" rel="noopener noreferrer" className="hover:text-gh-accent transition-colors">{a.name}</a>
-                          {i < authors.length - 1 && ', '}
-                        </span>
-                      ))}
-                    </span>
-                  </>
-                )}
-              </div>
+              <ArticleByline article={article} />
               <div className="flex flex-wrap gap-1.5">
                 {tags.map(tag => (
                   <Link key={tag} href={tagHref(tag)} className="text-[10px] text-gh-accent bg-gh-bg border border-gh-border rounded-full px-2 py-0.5 hover:border-gh-accent transition-colors">
@@ -85,6 +68,7 @@ export default function WriteupLayout({ article, relatedArticles, seriesArticles
               </div>
               {seriesNav && <div className="md:hidden mt-5">{seriesNav}</div>}
             </header>
+            <OldVersionNotice article={article} />
             <div className="prose-article" dangerouslySetInnerHTML={{ __html: contentHtml }} />
             <ImageCarousel />
             <MermaidDiagrams />

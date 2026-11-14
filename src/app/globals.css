@@ -93,6 +93,12 @@ html:not(.dark) .focus-badge-blue   { color: #1d4ed8; border-color: #93c5fd; bac
 html:not(.dark) .focus-badge-green  { color: #15803d; border-color: #86efac; background: transparent; }
 html:not(.dark) .focus-badge-yellow { color: #a16207; border-color: #fde047; background: transparent; }
 
+/* Notice above an older version of an article */
+.version-notice { color: var(--text); border-color: #6b5313; background: #2a210b; }
+.version-notice-icon, .version-notice-link { color: #d29922; }
+html:not(.dark) .version-notice { border-color: #e6c35c; background: #fff8c5; }
+html:not(.dark) .version-notice-icon, html:not(.dark) .version-notice-link { color: #9a6700; }
+
 /* Prose styles for article content */
 .prose-article {
   color: var(--muted);
