@@ -24,6 +24,9 @@ export interface FrontMatter {
   series?: string
   series_part?: number
   authors?: Author[]
+  version_of?: string
+  version?: number
+  version_note?: string
 }
 
 export interface ArticleMeta extends FrontMatter {
@@ -31,8 +34,18 @@ export interface ArticleMeta extends FrontMatter {
   readingTime: number
 }
 
+export interface ArticleVersion {
+  version: number
+  date: string
+  note: string
+}
+
 export interface Article extends ArticleMeta {
   contentHtml: string
+  // The version shown; `date` stays the original publication date
+  version: number
+  versions: ArticleVersion[]
+  updated?: string
 }
 
 export interface FocusBadge {

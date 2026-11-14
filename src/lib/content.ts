@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import type { Article, ArticleMeta, Category, FrontMatter } from '@/types/content'
+import type { Article, ArticleMeta, ArticleVersion, Category, FrontMatter } from '@/types/content'
 import { readingTime } from './reading-time'
 
 export const CONTENT_DIR =
@@ -25,45 +25,100 @@ function filenameToSlug(filename: string): string {
   return stripDatePrefix(filename.replace(/\.md$/, ''))
 }
 
-function findFile(category: Category, slug: string): string | undefined {
-  const dir = categoryDir(category)
-  if (!fs.existsSync(dir)) return undefined
-  return fs.readdirSync(dir)
-    .filter(f => f.endsWith('.md'))
-    .find(f => filenameToSlug(f) === slug)
+interface Entry {
+  slug: string
+  data: Partial<FrontMatter>
+  content: string
 }
 
-export function getArticleSlugs(category: Category): string[] {
+function readEntries(category: Category): Entry[] {
   const dir = categoryDir(category)
   if (!fs.existsSync(dir)) return []
   return fs.readdirSync(dir)
     .filter(f => f.endsWith('.md'))
-    .map(filenameToSlug)
+    .map(f => {
+      const { data, content } = matter(fs.readFileSync(path.join(dir, f), 'utf-8'))
+      return { slug: filenameToSlug(f), data: data as Partial<FrontMatter>, content }
+    })
 }
 
-export function getArticle(category: Category, slug: string): Article {
-  const dir = categoryDir(category)
-  const filename = findFile(category, slug)
-  if (!filename) throw new Error(`Article not found: ${category}/${slug}`)
-  const raw = fs.readFileSync(path.join(dir, filename), 'utf-8')
-  const { data, content } = matter(raw)
-  const fm = data as FrontMatter
+// Files with `version_of` join the article whose slug they name; the article
+// itself is version 1. Groups are keyed by that slug and sorted oldest first.
+export function groupVersions<T extends { slug: string; data: Partial<FrontMatter> }>(
+  entries: T[]
+): Map<string, (T & { version: number })[]> {
+  const groups = new Map<string, (T & { version: number })[]>()
+  for (const e of entries) {
+    if (!e.data.version_of) groups.set(e.slug, [{ ...e, version: e.data.version ?? 1 }])
+  }
+  for (const e of entries) {
+    const of = e.data.version_of
+    if (!of) continue
+    const group = groups.get(of)
+    if (!group) throw new Error(`${e.slug}: version_of "${of}" does not match any article`)
+    if (e.data.version === undefined) throw new Error(`${e.slug}: a version_of file needs a version number`)
+    group.push({ ...e, version: e.data.version })
+  }
+  for (const [slug, group] of groups) {
+    group.sort((a, b) => a.version - b.version)
+    group.forEach((e, i) => {
+      if (i > 0 && group[i - 1].version === e.version) {
+        throw new Error(`${e.slug}: duplicate version ${e.version} of "${slug}"`)
+      }
+    })
+  }
+  return groups
+}
+
+function getVersionEntries(category: Category, slug: string) {
+  const group = groupVersions(readEntries(category)).get(slug)
+  if (!group) throw new Error(`Article not found: ${category}/${slug}`)
+  return group
+}
+
+function getVersionEntry(category: Category, slug: string, version?: number) {
+  const group = getVersionEntries(category, slug)
+  const entry = version === undefined ? group[group.length - 1] : group.find(e => e.version === version)
+  if (!entry) throw new Error(`Article not found: ${category}/${slug} v${version}`)
+  return { group, entry }
+}
+
+export function getArticleSlugs(category: Category): string[] {
+  return [...groupVersions(readEntries(category)).keys()]
+}
+
+function toVersions(group: (Entry & { version: number })[]): ArticleVersion[] {
+  return group.map(e => ({
+    version: e.version,
+    date: e.data.date!,
+    note: e.data.version_note ?? (e.version === 1 ? 'Original publication' : ''),
+  }))
+}
+
+export function getArticleVersions(category: Category, slug: string): ArticleVersion[] {
+  return toVersions(getVersionEntries(category, slug))
+}
+
+// Without a version this is the newest one; `date` is always the original publication date
+export function getArticle(category: Category, slug: string, version?: number): Article {
+  const { group, entry } = getVersionEntry(category, slug, version)
+  const fm = entry.data as FrontMatter
   return {
     ...fm,
     tags: fm.tags ?? [],
     category: fm.category ?? category,
     slug,
+    date: group[0].data.date!,
     contentHtml: '',
-    readingTime: readingTime(content),
+    readingTime: readingTime(entry.content),
+    version: entry.version,
+    versions: toVersions(group),
+    updated: entry.version > 1 ? fm.date : undefined,
   }
 }
 
-export function getArticleRawContent(category: Category, slug: string): string {
-  const dir = categoryDir(category)
-  const filename = findFile(category, slug)
-  if (!filename) throw new Error(`Article not found: ${category}/${slug}`)
-  const raw = fs.readFileSync(path.join(dir, filename), 'utf-8')
-  return matter(raw).content
+export function getArticleRawContent(category: Category, slug: string, version?: number): string {
+  return getVersionEntry(category, slug, version).entry.content
 }
 
 export function getAllArticleMeta(): ArticleMeta[] {

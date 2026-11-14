@@ -17,3 +17,14 @@ describe('generateRssFeed', () => {
     expect(xml).toContain('<guid isPermaLink="true">https://tonemon.github.io/writeups/test-article/</guid>')
   })
 })
+
+describe('generateRssFeed with versioned articles', () => {
+  const xml = generateRssFeed()
+
+  it('lists a versioned article once, under its original date', () => {
+    expect(xml.match(/\/writeups\/versioned\//g)).toHaveLength(2)
+    expect(xml).not.toContain('versioned-v2')
+    const item = xml.split('<item>').find(i => i.includes('/writeups/versioned/'))!
+    expect(item).toContain(`<pubDate>${new Date('2025-03-01').toUTCString()}</pubDate>`)
+  })
+})
