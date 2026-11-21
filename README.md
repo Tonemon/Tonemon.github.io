@@ -48,6 +48,33 @@ paperUrl: /papers/paper.pdf
 paperCover: /paper-covers/paper-cover.png
 ```
 
+### Article versions
+
+To update an article but keep the earlier text available, add a new file for the new version in the same folder, rather than editing the original. The original file stays as it is and counts as version 1. Name the new file `YYYY-MM-DD-<slug>-v2.md`, where the date is the update date. Give it a complete frontmatter (title, tags, excerpt and so on), plus:
+
+```yaml
+date: "2026-11-20"           # the date of this version
+version_of: your-own-telecom-part1   # slug of the original article
+version: 2
+version_note: "Short note on what changed"   # shown in the version switcher
+```
+
+- The plain URL (`/projects/<slug>`) always shows the newest version, without a redirect.
+- Every version has its own link at `/projects/<slug>/vN`, including v1.
+- Cards, the feed and RSS keep the original publication date and position, and use the newest version's title and excerpt.
+- Older versions show a notice linking to the latest one, and are hidden from search engines.
+- The build fails if a version number appears twice, if `version_of` names an article that doesn't exist, or if `version` is missing.
+
+A new version should correct facts in place and keep the original story. New work belongs in a new article in the series.
+
+To compare two versions word by word:
+
+```bash
+git diff --no-index --word-diff=color \
+  content/projects/2026-10-29-your-own-telecom-part1.md \
+  content/projects/2026-11-20-your-own-telecom-part1-v2.md
+```
+
 ## Building
 
 ```bash
