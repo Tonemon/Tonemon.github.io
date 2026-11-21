@@ -48,6 +48,21 @@ paperUrl: /papers/paper.pdf
 paperCover: /paper-covers/paper-cover.png
 ```
 
+### Images and videos
+
+Put images in `public/images/` and videos in `public/videos/`, and embed both with the image syntax. The alt text becomes the caption:
+
+```md
+![Image 1. The world map](/images/telecom-map-overview.png)
+![Image 2. Towers and phones moving](/videos/telecom-map-UEs-towers.webm)
+```
+
+`.mp4`, `.webm` and `.mov` files play muted and on a loop, like a GIF. GIFs are embedded as normal images. Not every browser plays `.mov`, so convert those first:
+
+```bash
+ffmpeg -i clip.mov -c:v libvpx-vp9 -b:v 0 -crf 35 -an clip.webm
+```
+
 ### Article versions
 
 To update an article but keep the earlier text available, add a new file for the new version in the same folder, rather than editing the original. The original file stays as it is and counts as version 1. Name the new file `YYYY-MM-DD-<slug>-v2.md`, where the date is the update date. Give it a complete frontmatter (title, tags, excerpt and so on), plus:

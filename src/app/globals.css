@@ -158,8 +158,10 @@ html:not(.dark) .version-notice-icon, html:not(.dark) .version-notice-link { col
 }
 .prose-article th { background: var(--surface); color: var(--text); }
 .prose-article img { border-radius: 6px; max-width: 50%; }
+.prose-article video { border-radius: 6px; width: 100%; height: auto; }
 .prose-article-figure { display: flex; flex-direction: column; align-items: flex-start; margin: 1rem 0; }
 .prose-article-figcaption { font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem; font-style: italic; max-width: 50%; }
+.prose-article-figure-video .prose-article-figcaption { max-width: 100%; }
 .prose-article hr { border-color: var(--subtle); margin: 2rem 0; }
 
 /* Anchor links on headings */

@@ -74,6 +74,27 @@ describe('markdownToHtml', () => {
     expect(html).not.toContain('<figcaption')
   })
 
+  it.each(['mp4', 'webm', 'mov'])('renders an image link to a .%s file as a looping video with a caption', async ext => {
+    const html = await markdownToHtml(`![Image 1. A demo](/videos/demo.${ext})`)
+    expect(html).toContain(
+      `<figure class="prose-article-figure prose-article-figure-video"><video src="/videos/demo.${ext}" autoplay loop muted playsinline aria-label="Image 1. A demo"></video>` +
+        '<figcaption class="prose-article-figcaption">Image 1. A demo</figcaption></figure>'
+    )
+    expect(html).not.toContain('<img')
+  })
+
+  it('renders a video without alt text with no caption', async () => {
+    const html = await markdownToHtml('![](/videos/demo.webm)')
+    expect(html).toContain('<video src="/videos/demo.webm" autoplay loop muted playsinline></video>')
+    expect(html).not.toContain('<figcaption')
+  })
+
+  it('keeps images and GIFs as images', async () => {
+    const html = await markdownToHtml('![A gif](/images/demo.gif)')
+    expect(html).toContain('<img src="/images/demo.gif" alt="A gif">')
+    expect(html).not.toContain('<video')
+  })
+
   it('renders fenced code blocks', async () => {
     const md = '```python\nprint("hello")\n```'
     const html = await markdownToHtml(md)
